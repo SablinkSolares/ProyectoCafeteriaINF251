@@ -299,6 +299,128 @@ class PedidoTests(APITestCase):
             respuesta.status_code,
             status.HTTP_400_BAD_REQUEST
         )
+    
+    def test_no_permitir_manipular_precio_desde_cliente(self):
+        respuesta = self.client.post(
+            "/api/pedidos/",
+            {
+                "detalles": [
+                    {
+                        "producto": self.producto.id,
+                        "cantidad": 2,
+                        "precio_unitario": "1.00"
+                    }
+                ]
+            },
+            format="json"
+        )
+
+        self.assertEqual(respuesta.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(
+            Decimal(str(respuesta.data["total"])),
+            Decimal("30.00")
+        )
+        self.assertEqual(
+            Decimal(str(respuesta.data["detalles"][0]["precio_unitario"])),
+            Decimal("15.00")
+        )
+
+    def test_calcular_total_con_varios_productos(self):
+        segundo_producto = Producto.objects.create(
+            nombre="Té de prueba",
+            categoria=self.categoria,
+            precio=Decimal("10.00"),
+            stock=5
+        )
+
+        respuesta = self.client.post(
+            "/api/pedidos/",
+            {
+                "detalles": [
+                    {
+                        "producto": self.producto.id,
+                        "cantidad": 2
+                    },
+                    {
+                        "producto": segundo_producto.id,
+                        "cantidad": 3
+                    }
+                ]
+            },
+            format="json"
+        )
+
+        self.assertEqual(respuesta.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(
+            Decimal(str(respuesta.data["total"])),
+            Decimal("60.00")
+        )
+
+    def test_descontar_stock_al_crear_pedido(self):
+        respuesta = self.client.post(
+            "/api/pedidos/",
+            {
+                "detalles": [
+                    {
+                        "producto": self.producto.id,
+                        "cantidad": 3
+                    }
+                ]
+            },
+            format="json"
+        )
+
+        self.assertEqual(respuesta.status_code, status.HTTP_201_CREATED)
+
+        self.producto.refresh_from_db()
+        self.assertEqual(self.producto.stock, 7)
+
+    def test_rechazar_cantidad_cero(self):
+        respuesta = self.client.post(
+            "/api/pedidos/",
+            {
+                "detalles": [
+                    {
+                        "producto": self.producto.id,
+                        "cantidad": 0
+                    }
+                ]
+            },
+            format="json"
+        )
+
+        self.assertEqual(
+            respuesta.status_code,
+            status.HTTP_400_BAD_REQUEST
+        )
+
+    def test_conservar_precio_historico_del_pedido(self):
+        respuesta = self.client.post(
+            "/api/pedidos/",
+            {
+                "detalles": [
+                    {
+                        "producto": self.producto.id,
+                        "cantidad": 2
+                    }
+                ]
+            },
+            format="json"
+        )
+
+        self.assertEqual(respuesta.status_code, status.HTTP_201_CREATED)
+
+        self.producto.precio = Decimal("25.00")
+        self.producto.save()
+
+        pedido = Pedido.objects.get(pk=respuesta.data["id"])
+
+        self.assertEqual(
+            pedido.detalles.first().precio_unitario,
+            Decimal("15.00")
+        )
+        self.assertEqual(pedido.total, Decimal("30.00"))
+
 
 
 class PagoTests(APITestCase):

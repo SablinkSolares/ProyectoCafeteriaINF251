@@ -31,14 +31,15 @@ class DetallePedidoSerializer(serializers.ModelSerializer):
         ]
 
 
+
+
 class DetallePedidoCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DetallePedido
-        fields = ["producto", "cantidad", "precio_unitario"]
-        extra_kwargs = {
-            "precio_unitario": {"required": False}
-        }
+        # El cliente solo puede indicar el producto y la cantidad.
+        # El precio siempre lo determina el backend.
+        fields = ["producto", "cantidad"]
 
     def validate(self, attrs):
         producto = attrs["producto"]
@@ -57,9 +58,8 @@ class DetallePedidoCreateSerializer(serializers.ModelSerializer):
                 )
             })
 
-        attrs.setdefault("precio_unitario", producto.precio)
-
         return attrs
+
 
 
 class PedidoSerializer(serializers.ModelSerializer):
@@ -133,9 +133,13 @@ class PedidoCreateSerializer(serializers.ModelSerializer):
 
         # Crear los detalles del pedido.
         for detalle in detalles:
+            producto = productos[detalle["producto"].id]
+
             DetallePedido.objects.create(
                 pedido=pedido,
-                **detalle
+                producto=producto,
+                cantidad=detalle["cantidad"],
+                precio_unitario=producto.precio,
             )
 
         # Descontar el inventario.
