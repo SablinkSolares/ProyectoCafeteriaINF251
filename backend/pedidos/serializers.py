@@ -85,7 +85,10 @@ class PedidoSerializer(serializers.ModelSerializer):
 
 class PedidoCreateSerializer(serializers.ModelSerializer):
 
-    detalles = DetallePedidoCreateSerializer(many=True)
+    detalles = DetallePedidoCreateSerializer(
+        many=True,
+        allow_empty=False
+    )
 
     class Meta:
         model = Pedido

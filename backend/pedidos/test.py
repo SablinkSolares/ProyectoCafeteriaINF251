@@ -421,6 +421,110 @@ class PedidoTests(APITestCase):
         )
         self.assertEqual(pedido.total, Decimal("30.00"))
 
+    def test_rechazar_pedido_sin_detalles(self):
+        cantidad_anterior = Pedido.objects.count()
+
+        respuesta = self.client.post(
+            "/api/pedidos/",
+            {"detalles": []},
+            format="json"
+        )
+
+        self.assertEqual(
+            respuesta.status_code,
+            status.HTTP_400_BAD_REQUEST
+        )
+
+        self.assertEqual(
+            Pedido.objects.count(),
+            cantidad_anterior
+        )
+
+    def test_producto_repetido_descuenta_stock_correctamente(self):
+        respuesta = self.client.post(
+            "/api/pedidos/",
+            {
+                "detalles": [
+                    {
+                        "producto": self.producto.id,
+                        "cantidad": 3
+                    },
+                    {
+                        "producto": self.producto.id,
+                        "cantidad": 4
+                    }
+                ]
+            },
+            format="json"
+        )
+
+        self.assertEqual(
+            respuesta.status_code,
+            status.HTTP_201_CREATED
+        )
+
+        self.producto.refresh_from_db()
+
+        self.assertEqual(self.producto.stock, 3)
+        self.assertEqual(
+            Decimal(str(respuesta.data["total"])),
+            Decimal("105.00")
+        )
+
+    def test_producto_repetido_sin_stock_suficiente_no_crea_pedido(self):
+        cantidad_anterior = Pedido.objects.count()
+
+        respuesta = self.client.post(
+            "/api/pedidos/",
+            {
+                "detalles": [
+                    {
+                        "producto": self.producto.id,
+                        "cantidad": 6
+                    },
+                    {
+                        "producto": self.producto.id,
+                        "cantidad": 5
+                    }
+                ]
+            },
+            format="json"
+        )
+
+        self.assertEqual(
+            respuesta.status_code,
+            status.HTTP_400_BAD_REQUEST
+        )
+
+        self.assertEqual(
+            Pedido.objects.count(),
+            cantidad_anterior
+        )
+
+        self.producto.refresh_from_db()
+        self.assertEqual(self.producto.stock, 10)
+
+    def test_rechazar_producto_inexistente(self):
+        respuesta = self.client.post(
+            "/api/pedidos/",
+            {
+                "detalles": [
+                    {
+                        "producto": 999999,
+                        "cantidad": 1
+                    }
+                ]
+            },
+            format="json"
+        )
+
+        self.assertEqual(
+            respuesta.status_code,
+            status.HTTP_400_BAD_REQUEST
+        )
+
+        self.assertEqual(Pedido.objects.count(), 0)
+
 
 
 class PagoTests(APITestCase):
