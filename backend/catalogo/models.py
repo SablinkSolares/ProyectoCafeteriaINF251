@@ -1,3 +1,4 @@
+
 from django.db import models
 
 
@@ -16,7 +17,7 @@ class Categoria(models.Model):
 
 
 class Producto(models.Model):
-    """Producto ofrecido con precio decimal exacto y stock (RF1, RF4, RNF7)."""
+    """Producto ofrecido con precio decimal exacto y stock."""
 
     nombre = models.CharField(max_length=120)
     categoria = models.ForeignKey(
@@ -33,6 +34,20 @@ class Producto(models.Model):
         ordering = ["nombre"]
         verbose_name = "producto"
         verbose_name_plural = "productos"
+        indexes = [
+            models.Index(
+                fields=["categoria"],
+                name="producto_categoria_idx",
+            ),
+            models.Index(
+                fields=["precio"],
+                name="producto_precio_idx",
+            ),
+            models.Index(
+                fields=["stock"],
+                name="producto_stock_idx",
+            ),
+        ]
 
     def __str__(self):
         return f"{self.nombre} ({self.categoria.nombre})"

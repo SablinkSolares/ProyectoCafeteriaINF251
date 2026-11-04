@@ -57,3 +57,62 @@ class DetallePedido(models.Model):
 
     def __str__(self):
         return f"{self.cantidad} x {self.producto.nombre}"
+
+
+class Pago(models.Model):
+    """Registro de pagos en efectivo o QR y sus reembolsos."""
+
+    class Metodo(models.TextChoices):
+        EFECTIVO = "EFECTIVO", "Efectivo"
+        QR = "QR", "Código QR"
+
+    class Estado(models.TextChoices):
+        PENDIENTE = "PENDIENTE", "Pendiente"
+        COMPLETADO = "COMPLETADO", "Completado"
+        REEMBOLSADO = "REEMBOLSADO", "Reembolsado"
+        FALLIDO = "FALLIDO", "Fallido"
+
+    pedido = models.OneToOneField(
+        Pedido,
+        on_delete=models.PROTECT,
+        related_name="pago",
+    )
+
+    monto = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+    )
+
+    metodo = models.CharField(
+        max_length=20,
+        choices=Metodo.choices,
+    )
+
+    estado = models.CharField(
+        max_length=20,
+        choices=Estado.choices,
+        default=Estado.PENDIENTE,
+    )
+
+    referencia_qr = models.CharField(
+        max_length=255,
+        blank=True,
+    )
+
+    motivo_reembolso = models.TextField(
+        blank=True,
+    )
+
+    creado_en = models.DateTimeField(auto_now_add=True)
+    pagado_en = models.DateTimeField(null=True, blank=True)
+    reembolsado_en = models.DateTimeField(null=True, blank=True)
+
+    actualizado_en = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-creado_en"]
+        verbose_name = "pago"
+        verbose_name_plural = "pagos"
+
+    def __str__(self):
+        return f"Pago #{self.pk} - Pedido #{self.pedido_id} - {self.metodo}"
