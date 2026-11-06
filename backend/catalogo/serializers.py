@@ -12,6 +12,7 @@ class CategoriaSerializer(serializers.ModelSerializer):
 class ProductoSerializer(serializers.ModelSerializer):
     # El frontend muestra el nombre de la categoría sin pedir la relación completa.
     categoria_nombre = serializers.CharField(source="categoria.nombre", read_only=True)
+    stock = serializers.DecimalField(max_digits=12, decimal_places=3, min_value=0, coerce_to_string=False)
 
     class Meta:
         model = Producto

@@ -42,7 +42,7 @@ class ProductoViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
 
-        qs = Producto.objects.select_related("categoria")
+        qs = Producto.objects.select_related("categoria", "existencia")
 
         # Búsqueda parcial por nombre.
         q = self.request.query_params.get("q", "").strip()
@@ -102,9 +102,9 @@ class ProductoViewSet(viewsets.ModelViewSet):
                 })
 
             if disponible == "true":
-                qs = qs.filter(stock__gt=0)
+                qs = qs.filter(existencia__cantidad_stock__gt=0)
             else:
-                qs = qs.filter(stock=0)
+                qs = qs.filter(existencia__cantidad_stock=0)
 
         # Ordenamiento permitido.
         ordering = self.request.query_params.get(
@@ -128,7 +128,8 @@ class ProductoViewSet(viewsets.ModelViewSet):
                 )
             })
 
-        return qs.order_by(ordering, "id")
+        orden_db = {"stock": "existencia__cantidad_stock", "-stock": "-existencia__cantidad_stock"}
+        return qs.order_by(orden_db.get(ordering, ordering), "id")
 
     def obtener_precio(self, parametro):
 

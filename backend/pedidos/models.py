@@ -99,13 +99,8 @@ class Pago(models.Model):
         blank=True,
     )
 
-    motivo_reembolso = models.TextField(
-        blank=True,
-    )
-
     creado_en = models.DateTimeField(auto_now_add=True)
     pagado_en = models.DateTimeField(null=True, blank=True)
-    reembolsado_en = models.DateTimeField(null=True, blank=True)
 
     actualizado_en = models.DateTimeField(auto_now=True)
 
@@ -116,3 +111,16 @@ class Pago(models.Model):
 
     def __str__(self):
         return f"Pago #{self.pk} - Pedido #{self.pedido_id} - {self.metodo}"
+
+
+class Reembolso(models.Model):
+    pago = models.OneToOneField(Pago, on_delete=models.PROTECT, related_name="reembolso")
+    fecha_hora_reembolso = models.DateTimeField(null=True, blank=True)
+    importe_reembolsado = models.DecimalField(max_digits=10, decimal_places=2)
+    tipo_reembolso = models.CharField(max_length=40, blank=True)
+    motivo = models.TextField(blank=True)
+
+    class Meta:
+        constraints = [models.CheckConstraint(
+            condition=models.Q(importe_reembolsado__gt=0), name="reembolso_importe_positivo"
+        )]

@@ -3,7 +3,7 @@
 Uso:
     python manage.py seed_demo
 
-Es idempotente: actualiza usuarios y productos, y solo crea pedidos si la
+Es idempotente: conserva productos existentes y solo crea pedidos si la
 tabla está vacía. Las contraseñas son de prueba, nunca de producción.
 """
 from datetime import timedelta
@@ -83,7 +83,7 @@ class Command(BaseCommand):
     def _crear_catalogo(self):
         for nombre, categoria_nombre, precio, stock in PRODUCTOS:
             categoria, _ = Categoria.objects.get_or_create(nombre=categoria_nombre)
-            Producto.objects.update_or_create(
+            Producto.objects.get_or_create(
                 nombre=nombre,
                 categoria=categoria,
                 defaults={"precio": Decimal(precio), "stock": stock},

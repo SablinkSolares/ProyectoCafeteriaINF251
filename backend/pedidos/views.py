@@ -16,7 +16,7 @@ from rest_framework.response import Response
 from dinocafe.permissions import EsAdministrador
 
 from catalogo.models import Producto
-from .models import Pedido, Pago
+from .models import Pedido, Pago, Reembolso
 from .serializers import PedidoCreateSerializer, PedidoSerializer, PagoSerializer
 
 
@@ -259,13 +259,13 @@ class PagoViewSet(viewsets.GenericViewSet):
 
             # Actualizar el pago.
             pago.estado = Pago.Estado.REEMBOLSADO
-            pago.motivo_reembolso = motivo
-            pago.reembolsado_en = timezone.now()
+            Reembolso.objects.create(
+                pago=pago, motivo=motivo, fecha_hora_reembolso=timezone.now(),
+                importe_reembolsado=pago.monto, tipo_reembolso="total",
+            )
 
             pago.save(update_fields=[
                 "estado",
-                "motivo_reembolso",
-                "reembolsado_en",
                 "actualizado_en",
             ])
 
@@ -349,20 +349,20 @@ class PagoViewSet(viewsets.GenericViewSet):
 
         # Agregar reembolsos realizados en la fecha.
         reembolsos_db = (
-            Pago.objects
+            Reembolso.objects
             .filter(
-                reembolsado_en__date=fecha,
-                estado=Pago.Estado.REEMBOLSADO,
+                fecha_hora_reembolso__date=fecha,
+                pago__estado=Pago.Estado.REEMBOLSADO,
             )
-            .values("metodo")
+            .values("pago__metodo")
             .annotate(
-                total=Sum("monto"),
+                total=Sum("importe_reembolsado"),
                 cantidad=Count("id")
             )
         )
 
         for registro in reembolsos_db:
-            metodo = metodos[registro["metodo"]]
+            metodo = metodos[registro["pago__metodo"]]
 
             reembolsos[metodo] = {
                 "cantidad": registro["cantidad"],

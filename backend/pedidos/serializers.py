@@ -12,7 +12,7 @@ class DetallePedidoSerializer(serializers.ModelSerializer):
     """Formato que consume la vista de cocina."""
 
     producto = serializers.CharField(source="producto.nombre", read_only=True)
-    stock = serializers.IntegerField(source="producto.stock", read_only=True)
+    stock = serializers.DecimalField(source="producto.stock", max_digits=12, decimal_places=3, coerce_to_string=False, read_only=True)
     subtotal = serializers.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -157,6 +157,8 @@ class PedidoCreateSerializer(serializers.ModelSerializer):
 
 
 class PagoSerializer(serializers.ModelSerializer):
+    motivo_reembolso = serializers.CharField(source="reembolso.motivo", read_only=True, default="")
+    reembolsado_en = serializers.DateTimeField(source="reembolso.fecha_hora_reembolso", read_only=True, default=None)
 
     class Meta:
         model = Pago

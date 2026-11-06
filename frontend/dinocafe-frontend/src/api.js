@@ -44,8 +44,23 @@ export const authApi = {
 
 // Los precios viajan como string decimal ("12.50") para no perder exactitud (RNF7).
 export const productosApi = {
-  listar: ({ q = "", categoria = "" } = {}) =>
-    request(`/productos/?${new URLSearchParams({ q, categoria })}`),
+  listar: async ({ q = "", categoria = "" } = {}) => {
+    const productos = [];
+    let pagina = 1;
+    let haySiguiente = true;
+
+    while (haySiguiente) {
+      const parametros = new URLSearchParams({ q, categoria, page: String(pagina), page_size: "100" });
+      const respuesta = await request(`/productos/?${parametros}`);
+      if (Array.isArray(respuesta)) return respuesta;
+      if (!Array.isArray(respuesta?.results)) throw new Error("La respuesta del catálogo no es válida.");
+      productos.push(...respuesta.results);
+      haySiguiente = Boolean(respuesta.next);
+      pagina += 1;
+    }
+
+    return productos;
+  },
   categorias: () => request("/categorias/"),
   crear: (datos) => request("/productos/", { method: "POST", body: JSON.stringify(datos) }),
   actualizar: (id, datos) =>

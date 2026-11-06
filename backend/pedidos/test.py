@@ -785,14 +785,20 @@ class ConciliacionTests(APITestCase):
     ):
         pedido = Pedido.objects.create()
 
-        return Pago.objects.create(
+        pago = Pago.objects.create(
             pedido=pedido,
             monto=Decimal(monto),
             metodo=metodo,
             estado=estado,
             pagado_en=pagado_en,
-            reembolsado_en=reembolsado_en
         )
+        if reembolsado_en is not None:
+            from .models import Reembolso
+            Reembolso.objects.create(
+                pago=pago, fecha_hora_reembolso=reembolsado_en,
+                importe_reembolsado=Decimal(monto), tipo_reembolso="total",
+            )
+        return pago
 
     def test_conciliacion_ventas_por_metodo(self):
 
