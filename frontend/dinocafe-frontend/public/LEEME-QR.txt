@@ -1,0 +1,6 @@
+Coloca aquí el QR bancario real de la empresa y nómbralo exactamente:
+
+qr-empresa.png
+
+Ruta completa: frontend/dinocafe-frontend/public/qr-empresa.png
+No se incluye un QR de ejemplo para evitar que se use por error en un cobro real.

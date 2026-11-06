@@ -2,14 +2,14 @@ import { useState } from "react";
 
 const PRECIO_VALIDO = /^\d+(\.\d{1,2})?$/; // decimal exacto, sin float (RNF7)
 
-// RF1: alta y edición de producto. Solo el administrador cambia precios (RD1);
-// el servidor vuelve a validarlo, aquí solo se bloquea el campo.
+// RF1: alta y edición. Las imágenes se guardan como ruta pública dentro de public/.
 export default function ProductoForm({ categorias, producto, puedeCambiarPrecio, onGuardar, onCancelar }) {
   const [form, setForm] = useState({
     nombre: producto?.nombre ?? "",
     categoria: producto?.categoria ?? categorias[0]?.id ?? "",
     precio: producto?.precio ?? "",
     stock: producto?.stock ?? 0,
+    imagen: producto?.imagen ?? "",
   });
   const [error, setError] = useState("");
   const [guardando, setGuardando] = useState(false);
@@ -28,7 +28,6 @@ export default function ProductoForm({ categorias, producto, puedeCambiarPrecio,
     setGuardando(true);
     try {
       await onGuardar({
-        ...form,
         nombre: form.nombre.trim(),
         categoria: Number(form.categoria),
         precio,
@@ -64,6 +63,11 @@ export default function ProductoForm({ categorias, producto, puedeCambiarPrecio,
       <label>Stock
         <input type="number" min="0" step="1" value={form.stock} onChange={cambiar("stock")} />
       </label>
+      <label>Ruta de imagen (opcional)
+        <input value={form.imagen} onChange={cambiar("imagen")} disabled
+          placeholder="/images/productos/cafe.jpg" />
+      </label>
+      <p className="detalle ayuda-imagen">Se muestran las imágenes incluidas para productos conocidos. Este servidor aún no permite guardar rutas de imagen.</p>
       {error && <p className="error" role="alert">{error}</p>}
       <div className="acciones">
         <button type="submit" className="btn" disabled={guardando || sinCategorias}>Guardar producto</button>

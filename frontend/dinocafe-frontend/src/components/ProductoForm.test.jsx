@@ -51,6 +51,12 @@ describe("ProductoForm (S1-T04 / RF1)", () => {
     });
   });
 
+  it("indica que la ruta de imagen no se puede guardar en el servidor actual", () => {
+    renderForm();
+    expect(screen.getByLabelText("Ruta de imagen (opcional)")).toBeDisabled();
+    expect(screen.getByText(/aún no permite guardar rutas de imagen/i)).toBeInTheDocument();
+  });
+
   it("bloquea el precio al editar sin ser administrador (RD1)", () => {
     renderForm({
       producto: { id: 2, nombre: "Café", categoria: 1, precio: "7.00", stock: 5 },

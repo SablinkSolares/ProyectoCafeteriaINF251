@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 // RF9: barra de búsqueda con filtrado dinámico. Espera a que la persona deje de
 // escribir antes de pedir resultados al endpoint (?q=, coincidencia ILIKE en Django).
-export default function BuscadorProductos({ onBuscar, retraso = 300 }) {
+export default function BuscadorProductos({ onBuscar, retraso = 300, disabled = false }) {
   const [texto, setTexto] = useState("");
 
   useEffect(() => {
@@ -19,6 +19,7 @@ export default function BuscadorProductos({ onBuscar, retraso = 300 }) {
     <div className="buscador" role="search">
       <input
         type="search"
+        disabled={disabled}
         value={texto}
         onChange={(e) => setTexto(e.target.value)}
         onKeyDown={(e) => { if (e.key === "Escape") limpiar(); }}

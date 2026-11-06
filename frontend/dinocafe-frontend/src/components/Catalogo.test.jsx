@@ -14,9 +14,9 @@ vi.mock("../api", () => ({
 }));
 
 const PRODUCTOS = [
-  { id: 2, nombre: "Café", categoria: 1, categoria_nombre: "Bebidas", precio: "7.00", stock: 15 },
-  { id: 8, nombre: "Trozo de torta", categoria: 2, categoria_nombre: "Acompañamientos", precio: "12.00", stock: 3 },
-  { id: 4, nombre: "Cocoa con leche", categoria: 1, categoria_nombre: "Bebidas", precio: "9.50", stock: 0 },
+  { id: 2, nombre: "Café", categoria: 1, categoria_nombre: "Bebidas", precio: "7.00", stock: 15, imagen: "/images/productos/cafe.jpg", activo: true },
+  { id: 8, nombre: "Trozo de torta", categoria: 2, categoria_nombre: "Acompañamientos", precio: "12.00", stock: 3, imagen: "", activo: true },
+  { id: 4, nombre: "Cocoa con leche", categoria: 1, categoria_nombre: "Bebidas", precio: "9.50", stock: 0, imagen: "", activo: true },
 ];
 
 describe("Catalogo (S1-T04 / RF1 + S2-T02)", () => {
@@ -46,8 +46,15 @@ describe("Catalogo (S1-T04 / RF1 + S2-T02)", () => {
     fireEvent.click(screen.getByRole("button", { name: "Bebidas" }));
 
     await waitFor(() =>
-      expect(productosApi.listar).toHaveBeenLastCalledWith({ q: "", categoria: "1" }),
+      expect(productosApi.listar).toHaveBeenLastCalledWith({ q: "", categoria: "1", activo: "" }),
     );
+  });
+
+  it("no finge desactivar productos cuando el servidor no ofrece baja lógica", async () => {
+    render(<Catalogo />);
+    expect(await screen.findByText("Café")).toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: "Desactivar" })[0]).toBeDisabled();
+    expect(productosApi.actualizar).not.toHaveBeenCalled();
   });
 
   it("muestra el aviso del servidor si falla la carga", async () => {
@@ -55,5 +62,12 @@ describe("Catalogo (S1-T04 / RF1 + S2-T02)", () => {
     render(<Catalogo />);
 
     expect(await screen.findByRole("alert")).toHaveTextContent(/no se pudo cargar el catálogo/i);
+  });
+
+  it("no consulta el catálogo protegido sin iniciar sesión", async () => {
+    render(<Catalogo publico onLogin={() => {}} />);
+    expect(await screen.findByText(/catálogo requiere acceso del personal/i)).toBeInTheDocument();
+    expect(productosApi.listar).not.toHaveBeenCalled();
+    expect(productosApi.categorias).not.toHaveBeenCalled();
   });
 });

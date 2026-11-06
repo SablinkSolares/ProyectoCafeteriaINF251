@@ -8,7 +8,7 @@ const COLUMNAS = [
   { estado: "EN_PREPARACION", titulo: "En preparación", accion: "Marcar como listo", siguiente: "LISTO" },
   { estado: "LISTO", titulo: "Listos para entregar", accion: null, siguiente: null },
 ];
-const REFRESCO_MS = 5000; // sondeo simple para ver pedidos nuevos sin recargar
+const REFRESCO_MS = 4000; // sondeo simple para ver pedidos pagados sin recargar
 
 function minutosDesde(fecha) {
   return Math.max(0, Math.floor((Date.now() - new Date(fecha).getTime()) / 60000));
@@ -62,7 +62,7 @@ export default function VistaCocina() {
         <h1>Cocina</h1>
         {actualizado && (
           <p className="detalle" aria-live="polite">
-            Actualizado {actualizado.toLocaleTimeString("es-BO")} · se refresca cada {REFRESCO_MS / 1000} s
+            Pedidos por estado · actualizado {actualizado.toLocaleTimeString("es-BO")}
           </p>
         )}
       </header>
@@ -80,7 +80,7 @@ export default function VistaCocina() {
                 return (
                   <article key={p.id} className="ticket">
                     <header>
-                      <strong className="numero">#{p.id}</strong>
+                      <strong className="numero">#{p.id}{p.mesa != null ? ` · Mesa ${p.mesa}` : ""}</strong>
                       <span className="detalle">
                         {unidades} ítem{unidades === 1 ? "" : "s"} · hace {minutosDesde(p.creado_en)} min
                       </span>

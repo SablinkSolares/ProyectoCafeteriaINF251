@@ -1,53 +1,140 @@
-import { useState } from "react";
-import { cerrarSesion, getRol, getToken } from "./api";
+import { useEffect, useState } from "react";
+import {
+  authApi,
+  cerrarSesion,
+  getToken,
+  guardarSesion,
+} from "./api";
 import Catalogo from "./components/Catalogo";
-import LoginDev from "./components/LoginDev";
+import GestionUsuarios from "./components/GestionUsuarios";
+import Login from "./components/Login";
+import ReportesVentas from "./components/ReportesVentas";
+import SeguimientoPedidos from "./components/SeguimientoPedidos";
+import VistaCaja from "./components/VistaCaja";
 import VistaCocina from "./components/VistaCocina";
+import VistaMesero from "./components/VistaMesero";
 
-// Navegación mínima por rol. La pantalla de login y las rutas protegidas completas
-// son de S1-T02 (Noemi); aquí solo se oculta lo que el rol no usa. El servidor decide (RNF3).
+const ROLES = new Set(["administrador", "mesero", "cajero", "cocina"]);
 const VISTAS = [
-  { id: "catalogo", nombre: "Catálogo", roles: ["administrador", "mesero", "cajero", "cocina"], componente: Catalogo },
+  { id: "catalogo", nombre: "Productos", roles: ["administrador", "mesero", "cajero", "cocina"], componente: Catalogo },
+  { id: "seguimiento", nombre: "Seguimiento", roles: ["administrador"], componente: SeguimientoPedidos },
+  { id: "pedidos", nombre: "Entregas", roles: ["mesero"], componente: VistaMesero },
+  { id: "caja", nombre: "Caja", roles: ["administrador", "cajero"], componente: VistaCaja },
+  { id: "ventas", nombre: "Ventas", roles: ["administrador", "cajero"], componente: ReportesVentas },
+  { id: "usuarios", nombre: "Usuarios", roles: ["administrador"], componente: GestionUsuarios },
   { id: "cocina", nombre: "Cocina", roles: ["administrador", "cocina"], componente: VistaCocina },
 ];
+const NOMBRES_ROL = {
+  administrador: "Administrador",
+  mesero: "Mesero",
+  cajero: "Caja",
+  cocina: "Cocina",
+};
+const INICIO_POR_ROL = { administrador: "catalogo", mesero: "pedidos", cajero: "caja", cocina: "cocina" };
+
+function VistaProtegida({ vista, rol }) {
+  if (!vista || !vista.roles.includes(rol)) {
+    return <p className="error" role="alert">No tienes permiso para acceder a esta sección.</p>;
+  }
+  const Componente = vista.componente;
+  return <Componente />;
+}
+
+function CatalogoPublico({ onLogin }) {
+  return (
+    <>
+      <nav className="barra" aria-label="Navegación pública">
+        <a className="marca" href="#catalogo"><span className="marca-icono">D</span><span>DinoCafé</span></a>
+        <div className="cuenta-activa publico-texto"><span className="cuenta-nombre">Catálogo de productos</span><span className="cuenta-rol">Consulta nuestro menú</span></div>
+        <button className="btn-secundario" onClick={onLogin}>Acceso del personal</button>
+      </nav>
+      <main className="contenedor" id="catalogo"><Catalogo publico onLogin={onLogin} /></main>
+    </>
+  );
+}
 
 export default function App() {
-  const [token, setToken] = useState(getToken());
-  const [rol, setRol] = useState(getRol());
-  const permitidas = VISTAS.filter((v) => v.roles.includes(rol));
-  const [actual, setActual] = useState(() => VISTAS.find((v) => v.roles.includes(getRol()))?.id);
+  const [sesion, setSesion] = useState({
+    estado: getToken() ? "verificando" : "anonima",
+    rol: null,
+    usuario: null,
+    error: "",
+  });
+  const [actual, setActual] = useState(null);
+  const [mostrarLogin, setMostrarLogin] = useState(false);
 
-  function entrar(nuevoRol) {
-    setToken(getToken());
-    setRol(nuevoRol);
-    setActual(VISTAS.find((v) => v.roles.includes(nuevoRol))?.id);
+  useEffect(() => {
+    if (!getToken()) return undefined;
+    let activa = true;
+    authApi.me().then((usuario) => {
+      if (!activa) return;
+      if (!ROLES.has(usuario.rol)) {
+        cerrarSesion();
+        setSesion({ estado: "anonima", rol: null, usuario: null, error: "La cuenta no tiene un rol válido." });
+        return;
+      }
+      guardarSesion({ access: getToken(), rol: usuario.rol, username: usuario.username });
+      setSesion({ estado: "autenticada", rol: usuario.rol, usuario: usuario.username, error: "" });
+      setActual(INICIO_POR_ROL[usuario.rol] ?? null);
+    }).catch((error) => {
+      if (!activa) return;
+      if (error.status === 401) cerrarSesion();
+      setSesion({
+        estado: "anonima", rol: null, usuario: null,
+        error: error.status === 401
+          ? "Tu sesión venció. Ingresa de nuevo."
+          : "No se pudo validar la sesión. Comprueba la conexión e inténtalo otra vez.",
+      });
+      // Una sesión vencida no debe ocultar el catálogo público.
+      setMostrarLogin(false);
+    });
+    return () => { activa = false; };
+  }, []);
+
+  async function entrar(datos) {
+    if (!ROLES.has(datos.rol)) throw new Error("La cuenta no tiene un rol válido.");
+    guardarSesion(datos);
+    setSesion({ estado: "autenticada", rol: datos.rol, usuario: datos.username, error: "" });
+    setMostrarLogin(false);
+    setActual(INICIO_POR_ROL[datos.rol] ?? null);
   }
 
   function salir() {
     cerrarSesion();
-    setToken(null);
-    setRol(null);
-    setActual(undefined);
+    setSesion({ estado: "anonima", rol: null, usuario: null, error: "" });
+    setActual(null);
+    setMostrarLogin(false);
   }
 
-  if (!token || !rol || permitidas.length === 0) {
-    return <LoginDev onIngresar={entrar} />;
+  if (sesion.estado === "verificando") {
+    return <main className="login-pagina"><p className="detalle" role="status">Validando sesión…</p></main>;
+  }
+  if (sesion.estado !== "autenticada") {
+    if (!mostrarLogin) return <CatalogoPublico onLogin={() => setMostrarLogin(true)} />;
+    return <Login onIngresar={entrar} errorInicial={sesion.error} onCancelar={() => setMostrarLogin(false)} />;
   }
 
-  const Vista = permitidas.find((v) => v.id === actual)?.componente ?? permitidas[0].componente;
+  const permitidas = VISTAS.filter((vista) => vista.roles.includes(sesion.rol));
+  const seleccionada = permitidas.find((vista) => vista.id === actual) ?? permitidas[0];
 
   return (
     <>
-      <nav className="barra">
-        <span className="marca">DinoCafé</span>
-        {permitidas.map((v) => (
-          <button key={v.id} className={`pestana ${actual === v.id ? "activa" : ""}`} onClick={() => setActual(v.id)}>
-            {v.nombre}
-          </button>
-        ))}
+      <nav className="barra" aria-label="Navegación principal">
+        <a className="marca" href="#inicio" onClick={(event) => { event.preventDefault(); setActual(permitidas[0]?.id); }}>
+          <span className="marca-icono">D</span><span>DinoCafé</span>
+        </a>
+        <div className="navegacion">
+          {permitidas.map((vista) => (
+            <button key={vista.id} className={`pestana ${seleccionada.id === vista.id ? "activa" : ""}`}
+              aria-current={seleccionada.id === vista.id ? "page" : undefined} onClick={() => setActual(vista.id)}>
+              {vista.nombre}
+            </button>
+          ))}
+        </div>
+        <div className="cuenta-activa"><span className="cuenta-nombre">{sesion.usuario}</span><span className="cuenta-rol">{NOMBRES_ROL[sesion.rol]}</span></div>
         <button className="btn-texto salir" onClick={salir}>Salir</button>
       </nav>
-      <main className="contenedor"><Vista /></main>
+      <main className="contenedor"><VistaProtegida key={seleccionada.id} vista={seleccionada} rol={sesion.rol} /></main>
     </>
   );
 }
