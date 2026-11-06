@@ -100,11 +100,12 @@ class ProductoViewSet(viewsets.ModelViewSet):
                 raise ValidationError({
                     "disponible": "Utiliza true o false."
                 })
-
+            
             if disponible == "true":
-                qs = qs.filter(stock__gt=0)
+                qs = qs.filter(existencia__cantidad_stock__gt=0)
             else:
-                qs = qs.filter(stock=0)
+                qs = qs.filter(existencia__cantidad_stock=0)
+            
 
         # Ordenamiento permitido.
         ordering = self.request.query_params.get(
@@ -128,7 +129,16 @@ class ProductoViewSet(viewsets.ModelViewSet):
                 )
             })
 
-        return qs.order_by(ordering, "id")
+        campos_ordenamiento = {
+            "nombre": "nombre",
+            "-nombre": "-nombre",
+            "precio": "precio",
+            "-precio": "-precio",
+            "stock": "existencia__cantidad_stock",
+            "-stock": "-existencia__cantidad_stock",
+        }
+
+        return qs.order_by(campos_ordenamiento[ordering], "id")
 
     def obtener_precio(self, parametro):
 

@@ -12,7 +12,7 @@ class DetallePedidoSerializer(serializers.ModelSerializer):
     """Formato que consume la vista de cocina."""
 
     producto = serializers.CharField(source="producto.nombre", read_only=True)
-    stock = serializers.IntegerField(source="producto.stock", read_only=True)
+    stock = serializers.DecimalField(source="producto.stock", max_digits=12, decimal_places=3, read_only=True)
     subtotal = serializers.DecimalField(
         max_digits=10,
         decimal_places=2,
