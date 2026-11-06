@@ -86,12 +86,26 @@ button:disabled { opacity: .58; cursor: not-allowed; }
 .ticket ul, .lineas-pedido { display: grid; gap: .55rem; margin: 0; padding: 0; list-style: none; }
 .ticket li, .lineas-pedido li { display: flex; justify-content: space-between; align-items: center; gap: .7rem; }
 
-.login-pagina { display: grid; min-height: 100vh; place-items: center; padding: 2rem 1rem; background: #f0f1ee; }
-.login { width: min(100%, 430px); gap: 1.05rem; padding: 2rem; }
-.login-marca { display: flex; align-items: center; gap: .65rem; margin-bottom: .3rem; font-size: .95rem; font-weight: 650; }
-.login h1 { font-size: 1.75rem; }
+.login-pagina { display: grid; grid-template-columns: minmax(280px, 38%) minmax(0, 1fr); min-height: 100vh; min-height: 100dvh; background: #faf9f6; }
+.login-imagen { min-height: 100%; background: #30251e url('/images/carrusel/bebidas.jpg') 16% center / cover no-repeat; }
+.login-contenido { display: grid; place-items: center; padding: 3rem 2rem; }
+.login.form { width: min(100%, 400px); max-width: 400px; gap: 1.1rem; margin: 0; padding: 0; }
+.login-marca { display: flex; justify-content: center; align-items: center; gap: .7rem; margin-bottom: 1.5rem; font-size: 1.35rem; font-weight: 700; letter-spacing: -.035em; }
+.login-marca .marca-icono { width: 42px; height: 42px; border-color: #dce3dc; font-size: 1.2rem; }
+.login-encabezado { text-align: center; margin-bottom: .65rem; }
+.login-sobretitulo { margin: 0 0 .7rem; color: var(--acento-osc); font-size: .7rem; font-weight: 700; letter-spacing: .11em; }
+.login h1 { margin-bottom: .55rem; font-size: clamp(1.6rem, 2.5vw, 2rem); }
 .login .detalle { line-height: 1.5; }
-.login .cuentas { display: grid; gap: .55rem; padding-top: .9rem; border-top: 1px solid var(--linea); }
+.login label { gap: .45rem; font-weight: 600; }
+.login input { min-height: 48px; background: #fff; }
+.login .btn { min-height: 48px; margin-top: .35rem; }
+.login-cargando { display: grid; min-height: 100vh; place-items: center; background: #faf9f6; }
+@media (max-width: 700px) {
+  .login-pagina { grid-template-columns: 1fr; grid-template-rows: minmax(145px, 22vh) 1fr; }
+  .login-imagen { min-height: 145px; background-size: auto 200%; background-position: 14% 52%; }
+  .login-contenido { padding: 2.5rem 1.4rem 3rem; align-items: start; }
+  .login-marca { margin-bottom: 1rem; }
+}
 .etiqueta-seccion { margin: 0; color: #626a63; font-size: .8rem; font-weight: 600; }
 .lista-operaciones { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); align-items: start; gap: .85rem; }
 .pedido-operacion { display: grid; gap: .85rem; padding: 1rem; border: 1px solid var(--linea); border-radius: 10px; background: var(--superficie); box-shadow: var(--sombra); }

@@ -166,5 +166,7 @@ export const reportesApi = {
   ventas: (desde, hasta) => request(`/pagos/reporte-ventas/?${new URLSearchParams({ desde, hasta })}`),
 };
 
-const usuariosNoDisponibles = async () => { throw new Error("La gestión de usuarios no está disponible en este servidor."); };
-export const usuariosApi = { listar: usuariosNoDisponibles, crear: usuariosNoDisponibles, actualizar: usuariosNoDisponibles };
+export const usuariosApi = {
+  listar: () => request("/usuarios/"),
+  crear: (datos) => request("/usuarios/", { method: "POST", body: JSON.stringify(datos) }),
+};

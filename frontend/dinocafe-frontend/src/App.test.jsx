@@ -41,15 +41,14 @@ describe("App: sesión y acceso por rol", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Salir" }));
     await waitFor(() => expect(cerrarSesion).toHaveBeenCalled());
-    expect(screen.getByText("Catálogo protegido")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Acceso del personal" })).toBeInTheDocument();
+    expect(screen.getByText("Formulario de acceso")).toBeInTheDocument();
+    expect(screen.queryByText("Catálogo protegido")).not.toBeInTheDocument();
   });
 
-  it("muestra el catálogo público sin sesión y ofrece acceso al personal", () => {
+  it("muestra el inicio de sesión por defecto si no hay sesión", () => {
     render(<App />);
-    expect(screen.getByText("Catálogo protegido")).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: "Acceso del personal" }));
     expect(screen.getByText("Formulario de acceso")).toBeInTheDocument();
+    expect(screen.queryByText("Catálogo protegido")).not.toBeInTheDocument();
   });
 
   it("no abre el sistema si el servidor rechaza la sesión guardada", async () => {
@@ -57,7 +56,7 @@ describe("App: sesión y acceso por rol", () => {
     authApi.me.mockRejectedValue(Object.assign(new Error("Unauthorized"), { status: 401 }));
     render(<App />);
 
-    expect(await screen.findByText("Catálogo protegido")).toBeInTheDocument();
+    expect(await screen.findByText("Formulario de acceso")).toBeInTheDocument();
     expect(cerrarSesion).toHaveBeenCalled();
   });
 });

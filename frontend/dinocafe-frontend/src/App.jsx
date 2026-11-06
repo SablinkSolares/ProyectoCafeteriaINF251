@@ -40,19 +40,6 @@ function VistaProtegida({ vista, rol }) {
   return <Componente />;
 }
 
-function CatalogoPublico({ onLogin }) {
-  return (
-    <>
-      <nav className="barra" aria-label="Navegación pública">
-        <a className="marca" href="#catalogo"><span className="marca-icono">D</span><span>DinoCafé</span></a>
-        <div className="cuenta-activa publico-texto"><span className="cuenta-nombre">Catálogo de productos</span><span className="cuenta-rol">Consulta nuestro menú</span></div>
-        <button className="btn-secundario" onClick={onLogin}>Acceso del personal</button>
-      </nav>
-      <main className="contenedor" id="catalogo"><Catalogo publico onLogin={onLogin} /></main>
-    </>
-  );
-}
-
 export default function App() {
   const [sesion, setSesion] = useState({
     estado: getToken() ? "verificando" : "anonima",
@@ -61,7 +48,6 @@ export default function App() {
     error: "",
   });
   const [actual, setActual] = useState(null);
-  const [mostrarLogin, setMostrarLogin] = useState(false);
 
   useEffect(() => {
     if (!getToken()) return undefined;
@@ -85,8 +71,6 @@ export default function App() {
           ? "Tu sesión venció. Ingresa de nuevo."
           : "No se pudo validar la sesión. Comprueba la conexión e inténtalo otra vez.",
       });
-      // Una sesión vencida no debe ocultar el catálogo público.
-      setMostrarLogin(false);
     });
     return () => { activa = false; };
   }, []);
@@ -95,7 +79,6 @@ export default function App() {
     if (!ROLES.has(datos.rol)) throw new Error("La cuenta no tiene un rol válido.");
     guardarSesion(datos);
     setSesion({ estado: "autenticada", rol: datos.rol, usuario: datos.username, error: "" });
-    setMostrarLogin(false);
     setActual(INICIO_POR_ROL[datos.rol] ?? null);
   }
 
@@ -103,15 +86,13 @@ export default function App() {
     cerrarSesion();
     setSesion({ estado: "anonima", rol: null, usuario: null, error: "" });
     setActual(null);
-    setMostrarLogin(false);
   }
 
   if (sesion.estado === "verificando") {
-    return <main className="login-pagina"><p className="detalle" role="status">Validando sesión…</p></main>;
+    return <main className="login-cargando"><p className="detalle" role="status">Validando sesión…</p></main>;
   }
   if (sesion.estado !== "autenticada") {
-    if (!mostrarLogin) return <CatalogoPublico onLogin={() => setMostrarLogin(true)} />;
-    return <Login onIngresar={entrar} errorInicial={sesion.error} onCancelar={() => setMostrarLogin(false)} />;
+    return <Login onIngresar={entrar} errorInicial={sesion.error} />;
   }
 
   const permitidas = VISTAS.filter((vista) => vista.roles.includes(sesion.rol));

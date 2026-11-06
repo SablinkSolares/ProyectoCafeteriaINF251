@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { authApi } from "../api";
 
-export default function Login({ onIngresar, errorInicial = "", onCancelar }) {
+export default function Login({ onIngresar, errorInicial = "" }) {
   const [usuario, setUsuario] = useState("");
   const [clave, setClave] = useState("");
   const [error, setError] = useState(errorInicial);
@@ -27,14 +27,17 @@ export default function Login({ onIngresar, errorInicial = "", onCancelar }) {
 
   return (
     <main className="login-pagina">
-      <form className="panel form login" onSubmit={enviar} noValidate>
+      <div className="login-imagen" aria-hidden="true" />
+      <section className="login-contenido" aria-label="Acceso del personal">
+      <form className="form login" onSubmit={enviar}>
         <div className="login-marca">
-          <span className="marca-icono">D</span>
+          <span className="marca-icono" aria-hidden="true">D</span>
           <span>DinoCafé</span>
         </div>
-        <div>
-          <h1>Bienvenido</h1>
-          <p className="detalle">Ingresa para continuar al sistema de cafetería.</p>
+        <div className="login-encabezado">
+          <p className="login-sobretitulo">ACCESO DEL PERSONAL</p>
+          <h1>Bienvenido a DinoCafé</h1>
+          <p className="detalle">Ingresa con tu cuenta para continuar.</p>
         </div>
         <label>Usuario
           <input value={usuario} onChange={(e) => { setUsuario(e.target.value); setError(""); }}
@@ -48,8 +51,8 @@ export default function Login({ onIngresar, errorInicial = "", onCancelar }) {
         <button type="submit" className="btn" disabled={cargando}>
           {cargando ? "Ingresando…" : "Ingresar"}
         </button>
-        {onCancelar && <button type="button" className="btn-texto" onClick={onCancelar}>Volver al catálogo</button>}
       </form>
+      </section>
     </main>
   );
 }
