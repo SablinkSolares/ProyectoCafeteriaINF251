@@ -43,13 +43,33 @@ export const authApi = {
 };
 
 // Los precios viajan como string decimal ("12.50") para no perder exactitud (RNF7).
+// Convierte respuestas normales o paginadas en arreglos.
+const comoLista = (respuesta) => {
+  if (Array.isArray(respuesta)) return respuesta;
+  if (Array.isArray(respuesta?.results)) return respuesta.results;
+  return [];
+};
+
 export const productosApi = {
-  listar: ({ q = "", categoria = "" } = {}) =>
-    request(`/productos/?${new URLSearchParams({ q, categoria })}`),
-  categorias: () => request("/categorias/"),
-  crear: (datos) => request("/productos/", { method: "POST", body: JSON.stringify(datos) }),
+  listar: async ({ q = "", categoria = "" } = {}) =>
+    comoLista(
+      await request(`/productos/?${new URLSearchParams({ q, categoria })}`)
+    ),
+
+  categorias: async () =>
+    comoLista(await request("/categorias/")),
+
+  crear: (datos) =>
+    request("/productos/", {
+      method: "POST",
+      body: JSON.stringify(datos),
+    }),
+
   actualizar: (id, datos) =>
-    request(`/productos/${id}/`, { method: "PATCH", body: JSON.stringify(datos) }),
+    request(`/productos/${id}/`, {
+      method: "PATCH",
+      body: JSON.stringify(datos),
+    }),
 };
 
 export const pedidosApi = {
