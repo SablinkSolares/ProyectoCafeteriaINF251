@@ -1,6 +1,2 @@
-Coloca aquí el QR bancario real de la empresa y nómbralo exactamente:
-
-qr-empresa.png
-
-Ruta completa: frontend/dinocafe-frontend/public/qr-empresa.png
-No se incluye un QR de ejemplo para evitar que se use por error en un cobro real.
+El archivo qr-demostracion.svg es una imagen ficticia para mostrar en caja.
+No sirve para pagar ni conecta con un banco. Los pagos QR se confirman manualmente.

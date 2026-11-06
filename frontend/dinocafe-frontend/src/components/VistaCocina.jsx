@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { pedidosApi } from "../api";
-import StockBadge from "./StockBadge";
 
 // RF3 / RF5 (S1-T08): cocina recibe pedidos y avanza su estado. "Entregado" lo registra el mesero.
 const COLUMNAS = [
@@ -80,7 +79,7 @@ export default function VistaCocina() {
                 return (
                   <article key={p.id} className="ticket">
                     <header>
-                      <strong className="numero">#{p.id}{p.mesa != null ? ` · Mesa ${p.mesa}` : ""}</strong>
+                      <strong className="numero">#{p.id}</strong>
                       <span className="detalle">
                         {unidades} ítem{unidades === 1 ? "" : "s"} · hace {minutosDesde(p.creado_en)} min
                       </span>
@@ -89,7 +88,6 @@ export default function VistaCocina() {
                       {p.detalles.map((d) => (
                         <li key={d.id}>
                           <span><b>{d.cantidad}×</b> {d.producto}</span>
-                          <StockBadge stock={d.stock} />
                         </li>
                       ))}
                     </ul>

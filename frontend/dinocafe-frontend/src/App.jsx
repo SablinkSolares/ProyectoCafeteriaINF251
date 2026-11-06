@@ -18,7 +18,7 @@ const ROLES = new Set(["administrador", "mesero", "cajero", "cocina"]);
 const VISTAS = [
   { id: "catalogo", nombre: "Productos", roles: ["administrador", "mesero", "cajero", "cocina"], componente: Catalogo },
   { id: "seguimiento", nombre: "Seguimiento", roles: ["administrador"], componente: SeguimientoPedidos },
-  { id: "pedidos", nombre: "Entregas", roles: ["mesero"], componente: VistaMesero },
+  { id: "pedidos", nombre: "Entregas", roles: ["administrador", "mesero"], componente: VistaMesero },
   { id: "caja", nombre: "Caja", roles: ["administrador", "cajero"], componente: VistaCaja },
   { id: "ventas", nombre: "Ventas", roles: ["administrador", "cajero"], componente: ReportesVentas },
   { id: "usuarios", nombre: "Usuarios", roles: ["administrador"], componente: GestionUsuarios },

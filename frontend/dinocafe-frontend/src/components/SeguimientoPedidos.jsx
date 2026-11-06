@@ -6,6 +6,7 @@ const ESTADOS = [
   ["EN_PREPARACION", "En preparación"],
   ["LISTO", "Listo para entregar"],
   ["ENTREGADO", "Entregado"],
+  ["CANCELADO", "Cancelado"],
 ];
 
 function moneda(valor) {
@@ -48,7 +49,7 @@ export default function SeguimientoPedidos() {
         <div>
           <p className="sobretitulo">Supervisión general</p>
           <h1>Seguimiento de pedidos</h1>
-          <p className="detalle">Administración puede observar todo el recorrido: registro, cobro, cocina y entrega.</p>
+          <p className="detalle">Administración puede observar todo el recorrido: registro, cocina, entrega y cobro.</p>
           {actualizado && <p className="detalle">Actualizado {actualizado.toLocaleTimeString("es-BO")} · actualización automática cada 4 segundos.</p>}
         </div>
         <button className="btn-secundario" onClick={cargar}>Actualizar</button>
@@ -56,7 +57,7 @@ export default function SeguimientoPedidos() {
 
       <div className="resumen-ventas seguimiento-resumen">
         <article className="indicador"><span>Total de pedidos</span><strong>{pedidos.length}</strong></article>
-        <article className="indicador"><span>Sin pago registrado</span><strong>{pedidos.filter((pedido) => !pedido.pago).length}</strong></article>
+        <article className="indicador"><span>Sin pago registrado</span><strong>{pedidos.filter((pedido) => !pedido.pago && pedido.estado !== "CANCELADO").length}</strong></article>
         <article className="indicador"><span>En cocina</span><strong>{totalPorEstado("ESPERA") + totalPorEstado("EN_PREPARACION")}</strong></article>
         <article className="indicador indicador-destacado"><span>Listos para entregar</span><strong>{totalPorEstado("LISTO")}</strong></article>
       </div>
@@ -74,7 +75,7 @@ export default function SeguimientoPedidos() {
         {visibles.map((pedido) => (
           <article className="pedido-operacion seguimiento-card" key={pedido.id}>
             <header className="pedido-operacion-cabecera">
-              <div><p className="sobretitulo">Mesa no registrada</p><h2>Pedido #{pedido.id}</h2></div>
+              <div><p className="sobretitulo">Pedido</p><h2>Pedido #{pedido.id}</h2></div>
               <span className={`estado-pedido estado-${pedido.estado.toLowerCase()}`}>{ESTADOS.find(([valor]) => valor === pedido.estado)?.[1] || pedido.estado}</span>
             </header>
             <ul className="lineas-pedido">

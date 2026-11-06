@@ -6,6 +6,7 @@ from rest_framework import serializers
 
 from .models import DetallePedido, Pedido, Pago
 from catalogo.models import Producto
+from .insumos import reservar_insumos
 
 
 class DetallePedidoSerializer(serializers.ModelSerializer):
@@ -79,7 +80,8 @@ class PedidoSerializer(serializers.ModelSerializer):
             "creado_en",
             "actualizado_en",
             "total",
-            "detalles"
+            "detalles",
+            "reserva_registrada",
         ]
 
 
@@ -114,7 +116,7 @@ class PedidoCreateSerializer(serializers.ModelSerializer):
         productos = {}
 
         # Comprobar nuevamente el stock disponible.
-        for producto_id, cantidad in cantidades.items():
+        for producto_id, cantidad in sorted(cantidades.items()):
 
             producto = Producto.objects.select_for_update().get(
                 pk=producto_id
@@ -132,7 +134,8 @@ class PedidoCreateSerializer(serializers.ModelSerializer):
             productos[producto_id] = producto
 
         # Crear el pedido.
-        pedido = Pedido.objects.create(**validated_data)
+        pedido = Pedido.objects.create(reserva_registrada=True, **validated_data)
+        reservar_insumos(pedido, cantidades)
 
         # Crear los detalles del pedido.
         for detalle in detalles:

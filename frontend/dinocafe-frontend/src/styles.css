@@ -160,8 +160,6 @@ tbody tr:last-child td { border-bottom: 0; }
 .publico-texto { margin-left: auto; }
 .caja-nuevo-pedido { margin-bottom: 1.5rem; padding: 1.1rem; }
 .caja-nuevo-pedido .tabla-cabecera { align-items: center; margin-bottom: .9rem; }
-.selector-mesa { display: grid; min-width: 150px; gap: .35rem; color: #4b514c; font-size: .86rem; font-weight: 570; }
-.selector-mesa select { min-height: 42px; padding: .5rem .7rem; border: 1px solid var(--linea); border-radius: 7px; background: var(--superficie); }
 .caja-constructor { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(260px, .8fr); gap: 1rem; align-items: start; }
 .caja-buscador { margin-bottom: .6rem; }
 .caja-buscador input { width: 100%; min-height: 42px; padding: .55rem .75rem; border: 1px solid var(--linea); border-radius: 7px; background: var(--superficie); }
@@ -203,7 +201,6 @@ tbody tr:last-child td { border-bottom: 0; }
 }
 @media (max-width: 540px) {
   .caja-nuevo-pedido .tabla-cabecera { align-items: flex-start; flex-direction: column; }
-  .selector-mesa { width: 100%; }
   .seguimiento-datos { grid-template-columns: 1fr; }
   .notificacion-pedido { align-items: flex-start; flex-direction: column; gap: .2rem; }
 }

@@ -17,7 +17,7 @@ vi.mock("../api", () => ({
 
 const PRODUCTO = { id: 2, nombre: "Té", categoria: 1, categoria_nombre: "Bebidas", precio: "5.00", stock: 8 };
 const PEDIDO = {
-  id: 4, estado: "ESPERA", total: "10.00", pago: null,
+  id: 4, estado: "ENTREGADO", total: "10.00", pago: null,
   detalles: [{ id: 1, producto: "Té", cantidad: 2, subtotal: "10.00" }],
 };
 
@@ -41,10 +41,9 @@ describe("VistaCaja: pedidos y pagos del servidor actual", () => {
     expect(pedidosApi.crear).not.toHaveBeenCalled();
   });
 
-  it("construye el carrito y registra un pedido sin guardar una mesa inexistente", async () => {
+  it("construye el carrito y registra un pedido", async () => {
     render(<VistaCaja />);
     expect(await screen.findByText("Té")).toBeInTheDocument();
-    expect(screen.getByLabelText("Mesa")).toBeDisabled();
     fireEvent.click(screen.getByRole("button", { name: "Agregar" }));
     expect(screen.getByText("1 artículos")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Registrar pedido" }));
@@ -85,12 +84,30 @@ describe("VistaCaja: pedidos y pagos del servidor actual", () => {
     render(<VistaCaja />);
     await screen.findByText("#4");
     fireEvent.change(screen.getByLabelText("Método de pago"), { target: { value: "QR" } });
-    expect(screen.getByAltText("Código QR de pago de la empresa")).toBeInTheDocument();
+    expect(screen.getByAltText("Código QR ficticio de demostración")).toBeInTheDocument();
     fireEvent.change(screen.getByLabelText("Referencia o número de comprobante"), { target: { value: "QR-44" } });
     fireEvent.click(screen.getByRole("button", { name: "Registrar comprobante QR" }));
 
     await waitFor(() => expect(pedidosApi.registrarPago).toHaveBeenCalledWith(4, {
       metodo: "QR", monto: "10.00", referencia_qr: "QR-44",
     }));
+  });
+
+  it("no muestra un pedido por cobrar antes de la entrega", async () => {
+    pedidosApi.listarCaja.mockResolvedValue([{ ...PEDIDO, estado: "EN_PREPARACION" }]);
+    render(<VistaCaja />);
+    await screen.findByText("No hay pedidos en esta sección.");
+    expect(screen.queryByRole("button", { name: "Registrar pago" })).not.toBeInTheDocument();
+  });
+
+  it("informa al registrar el pedido si faltan insumos", async () => {
+    pedidosApi.crear.mockRejectedValue(new Error("Insumos insuficientes: Cápsulas."));
+    render(<VistaCaja />);
+    await screen.findByText("Té");
+    fireEvent.click(screen.getByRole("button", { name: "Agregar" }));
+    fireEvent.click(screen.getByRole("button", { name: "Registrar pedido" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent("Cápsulas");
+    await waitFor(() => expect(productosApi.listar).toHaveBeenCalledTimes(2));
+    expect(screen.getByRole("alert")).toHaveTextContent("Cápsulas");
   });
 });

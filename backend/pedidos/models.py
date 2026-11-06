@@ -2,7 +2,7 @@ from decimal import Decimal
 
 from django.db import models
 
-from catalogo.models import Producto
+from catalogo.models import Producto, Insumo
 
 
 class Pedido(models.Model):
@@ -13,6 +13,7 @@ class Pedido(models.Model):
         EN_PREPARACION = "EN_PREPARACION", "En preparación"
         LISTO = "LISTO", "Listo"
         ENTREGADO = "ENTREGADO", "Entregado"
+        CANCELADO = "CANCELADO", "Cancelado"
 
     estado = models.CharField(
         max_length=20,
@@ -21,6 +22,7 @@ class Pedido(models.Model):
     )
     creado_en = models.DateTimeField(auto_now_add=True)
     actualizado_en = models.DateTimeField(auto_now=True)
+    reserva_registrada = models.BooleanField(default=False, editable=False)
 
     class Meta:
         db_table = "pedido"
@@ -59,6 +61,25 @@ class DetallePedido(models.Model):
 
     def __str__(self):
         return f"{self.cantidad} x {self.producto.nombre}"
+
+
+class ReservaInsumo(models.Model):
+    class Estado(models.TextChoices):
+        RESERVADA = "RESERVADA", "Reservada"
+        CONSUMIDA = "CONSUMIDA", "Consumida"
+        LIBERADA = "LIBERADA", "Liberada"
+
+    pedido = models.ForeignKey(Pedido, on_delete=models.PROTECT, related_name="reservas_insumos")
+    insumo = models.ForeignKey(Insumo, on_delete=models.PROTECT, related_name="reservas")
+    cantidad = models.DecimalField(max_digits=12, decimal_places=3)
+    estado = models.CharField(max_length=12, choices=Estado.choices, default=Estado.RESERVADA)
+
+    class Meta:
+        db_table = "reserva_insumo"
+        constraints = [
+            models.UniqueConstraint(fields=["pedido", "insumo"], name="reserva_pedido_insumo_unica"),
+            models.CheckConstraint(condition=models.Q(cantidad__gt=0), name="reserva_insumo_cantidad_positiva"),
+        ]
 
 
 class Pago(models.Model):

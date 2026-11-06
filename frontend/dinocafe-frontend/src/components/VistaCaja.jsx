@@ -18,8 +18,8 @@ export function NuevoPedidoCaja({ alCrear, refreshToken, puedeCrear = false }) {
   const [error, setError] = useState("");
   const [aviso, setAviso] = useState("");
 
-  const cargarCatalogo = useCallback(async () => {
-    setCargando(true);
+  const cargarCatalogo = useCallback(async (silencioso = false) => {
+    if (!silencioso) setCargando(true);
     try {
       const [listaProductos, listaCategorias] = await Promise.all([
         productosApi.listar(),
@@ -27,7 +27,6 @@ export function NuevoPedidoCaja({ alCrear, refreshToken, puedeCrear = false }) {
       ]);
       setProductos(listaProductos);
       setCategorias(listaCategorias);
-      setError("");
     } catch (e) {
       setError(e.message);
     } finally {
@@ -36,6 +35,10 @@ export function NuevoPedidoCaja({ alCrear, refreshToken, puedeCrear = false }) {
   }, []);
 
   useEffect(() => { cargarCatalogo(); }, [cargarCatalogo, refreshToken]);
+  useEffect(() => {
+    const timer = setInterval(() => cargarCatalogo(true), 10000);
+    return () => clearInterval(timer);
+  }, [cargarCatalogo]);
 
   const visibles = useMemo(() => productos.filter((producto) => {
     const coincideTexto = producto.nombre.toLowerCase().includes(busqueda.trim().toLowerCase());
@@ -95,9 +98,10 @@ export function NuevoPedidoCaja({ alCrear, refreshToken, puedeCrear = false }) {
       setCarrito([]);
       setAviso(`Pedido #${pedido.id} registrado correctamente.`);
       await alCrear();
+      await cargarCatalogo(true);
     } catch (e) {
-      setError(e.message);
       await cargarCatalogo();
+      setError(e.message);
     } finally {
       setGuardando(false);
     }
@@ -109,11 +113,8 @@ export function NuevoPedidoCaja({ alCrear, refreshToken, puedeCrear = false }) {
         <div>
           <p className="sobretitulo">Registro de pedidos</p>
           <h2>Registrar nuevo pedido</h2>
-          <p className="detalle">El mesero o administrador registra el pedido. La mesa todavía no se guarda en este sistema.</p>
+          <p className="detalle">Al registrar el pedido se comprueban y reservan productos e insumos disponibles.</p>
         </div>
-        <label className="selector-mesa">Mesa
-          <select value="" disabled><option value="">No disponible</option></select>
-        </label>
       </div>
 
       <div className="caja-constructor">
@@ -224,7 +225,7 @@ function PedidoCaja({ pedido, alActualizar }) {
         referencia_qr: metodo === "QR" ? referencia : "",
       }),
       metodo === "QR"
-        ? "Referencia registrada. Verifica que el dinero haya llegado antes de confirmar el pago."
+        ? "Referencia registrada. El QR es de demostración; la confirmación se realiza manualmente."
         : "Pago en efectivo registrado.",
       metodo === "QR" ? "verificar" : "pagados",
     );
@@ -243,7 +244,7 @@ function PedidoCaja({ pedido, alActualizar }) {
     <article className="pedido-operacion">
       <header className="pedido-operacion-cabecera">
         <div>
-          <p className="sobretitulo">Pedido · Mesa no registrada</p>
+          <p className="sobretitulo">Pedido</p>
           <h2>#{pedido.id}</h2>
           <p className="detalle">Responsable no registrado por el servidor.</p>
         </div>
@@ -255,7 +256,8 @@ function PedidoCaja({ pedido, alActualizar }) {
         ))}
       </ul>
 
-      {!pago && (
+      {!pago && pedido.estado !== "ENTREGADO" && <p className="detalle">Pendiente de entrega. El cobro se habilitará después de la entrega.</p>}
+      {!pago && pedido.estado === "ENTREGADO" && (
         <form className="form-cobro" onSubmit={cobrar}>
           <label>Método de pago
             <select value={metodo} onChange={(event) => setMetodo(event.target.value)}>
@@ -265,17 +267,17 @@ function PedidoCaja({ pedido, alActualizar }) {
           </label>
           {metodo === "QR" ? (
             <div className="qr-empresa">
-              <p><b>QR de la empresa</b></p>
+              <p><b>QR de demostración</b></p>
               {qrDisponible ? (
-                <img src="/qr-empresa.png" alt="Código QR de pago de la empresa"
+                <img src="/qr-demostracion.svg" alt="Código QR ficticio de demostración"
                   onError={() => setQrDisponible(false)} />
               ) : (
                 <div className="qr-placeholder">
-                  <span>QR EMPRESA</span>
-                  <small>Coloca la imagen en<br /><code>public/qr-empresa.png</code></small>
+                  <span>QR DE DEMOSTRACIÓN</span>
+                  <small>No se pudo cargar la imagen de ejemplo.</small>
                 </div>
               )}
-              <p className="detalle">El cajero debe comprobar el abono en la cuenta antes de verificarlo aquí.</p>
+              <p className="detalle">Imagen ficticia: no realiza cobros. La confirmación del pago se registra manualmente.</p>
             </div>
           ) : (
             <>
@@ -305,9 +307,12 @@ function PedidoCaja({ pedido, alActualizar }) {
           {pago.metodo === "QR" && <p className="detalle">Comprobante: {pago.referencia_qr || "Sin referencia"}</p>}
           {pago.metodo === "EFECTIVO" && <p className="detalle">Monto registrado: {moneda(pago.monto)}</p>}
           {pago.estado === "PENDIENTE" && pago.metodo === "QR" && (
-            <button className="btn-secundario" disabled={ocupado} onClick={() =>
-              ejecutar(() => pedidosApi.verificarQr(pago.id), "Pago QR confirmado.", "pagados")
-            }>Confirmar que el pago QR llegó</button>
+            <>
+              <p className="detalle">Confirmación manual de demostración; el sistema no consulta a ningún banco. El pedido debe estar entregado.</p>
+              <button className="btn-secundario" disabled={ocupado || pedido.estado !== "ENTREGADO"} onClick={() =>
+                ejecutar(() => pedidosApi.verificarQr(pago.id), "Pago QR confirmado.", "pagados")
+              }>Confirmar pago QR manualmente</button>
+            </>
           )}
           {["COMPLETADO", "REEMBOLSADO"].includes(pago.estado) && (
             <>
@@ -357,7 +362,7 @@ export default function VistaCaja() {
   }, [cargar]);
 
   const visibles = pedidos.filter((pedido) => {
-    if (filtro === "pendientes") return !pedido.pago;
+    if (filtro === "pendientes") return !pedido.pago && pedido.estado === "ENTREGADO";
     if (filtro === "verificar") return pedido.pago?.estado === "PENDIENTE";
     return ["COMPLETADO", "REEMBOLSADO"].includes(pedido.pago?.estado);
   });
@@ -376,7 +381,7 @@ export default function VistaCaja() {
       <NuevoPedidoCaja alCrear={cargar} refreshToken={versionCatalogo} puedeCrear={getRol() === "administrador"} />
 
       <section className="caja-pedidos">
-        <div className="tabla-cabecera"><div><h2>Pedidos registrados</h2><p className="detalle">Seguimiento de cobros y pedidos enviados a cocina.</p></div></div>
+        <div className="tabla-cabecera"><div><h2>Pedidos registrados</h2><p className="detalle">Los pedidos aparecen por cobrar cuando el mesero confirma la entrega.</p></div></div>
         <div className="chips" role="group" aria-label="Filtrar pedidos de caja">
           {[["pendientes", "Por cobrar"], ["verificar", "Verificar QR"], ["pagados", "Pagados / en proceso"]].map(([id, titulo]) => (
             <button key={id} className={`chip ${filtro === id ? "activo" : ""}`} onClick={() => setFiltro(id)}>{titulo}</button>

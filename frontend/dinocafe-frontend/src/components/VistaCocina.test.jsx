@@ -12,7 +12,6 @@ vi.mock("../api", () => ({
 
 const PEDIDO = {
   id: 7,
-  mesa: 4,
   estado: "ESPERA",
   creado_en: new Date(Date.now() - 3 * 60000).toISOString(),
   detalles: [{ id: 1, producto: "Café", cantidad: 2, stock: 3 }],
@@ -24,12 +23,12 @@ describe("VistaCocina (S1-T08 / RF3 + RF5)", () => {
     pedidosApi.listarCocina.mockResolvedValue([PEDIDO]);
   });
 
-  it("muestra el pedido con stock y avanza a EN_PREPARACION", async () => {
+  it("muestra el pedido reservado sin confundirlo con el stock disponible y avanza a EN_PREPARACION", async () => {
     pedidosApi.cambiarEstado.mockResolvedValue({ ...PEDIDO, estado: "EN_PREPARACION" });
     render(<VistaCocina />);
 
-    expect(await screen.findByText("#7 · Mesa 4")).toBeInTheDocument();
-    expect(screen.getByText("Quedan 3")).toBeInTheDocument();
+    expect(await screen.findByText("#7")).toBeInTheDocument();
+    expect(screen.queryByText("Quedan 3")).not.toBeInTheDocument();
     expect(screen.getByText(/2 ítems/)).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: /empezar a preparar del pedido 7/i }));
@@ -45,7 +44,7 @@ describe("VistaCocina (S1-T08 / RF3 + RF5)", () => {
   it("muestra el error del servidor si la transición es rechazada", async () => {
     pedidosApi.cambiarEstado.mockRejectedValue(new Error("Transición inválida"));
     render(<VistaCocina />);
-    await screen.findByText("#7 · Mesa 4");
+    await screen.findByText("#7");
 
     fireEvent.click(screen.getByRole("button", { name: /empezar a preparar del pedido 7/i }));
 

@@ -4,7 +4,7 @@ from django.db import transaction
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from decimal import Decimal
-from django.db.models import Sum, Count
+from django.db.models import Sum, Count, F, DecimalField, ExpressionWrapper
 from django.utils.dateparse import parse_date
 from rest_framework import serializers, status, viewsets
 from rest_framework import status, viewsets
@@ -16,7 +16,8 @@ from rest_framework.response import Response
 from dinocafe.permissions import EsAdministrador
 
 from catalogo.models import Producto
-from .models import Pedido, Pago, Reembolso
+from .models import Pedido, Pago, Reembolso, DetallePedido, ReservaInsumo
+from .insumos import descontar_insumos
 from .serializers import PedidoCreateSerializer, PedidoSerializer, PagoSerializer
 
 
@@ -63,6 +64,15 @@ class PedidoViewSet(viewsets.ModelViewSet):
             return PedidoCreateSerializer
         return PedidoSerializer
 
+    def update(self, request, *args, **kwargs):
+        raise ValidationError({"pedido": "Usa las acciones de preparación, entrega o cancelación para cambiar un pedido."})
+
+    def destroy(self, request, *args, **kwargs):
+        pedido = self.get_object()
+        if pedido.reserva_registrada:
+            raise ValidationError({"pedido": "No elimines pedidos con reservas; utiliza la opción de cancelar."})
+        return super().destroy(request, *args, **kwargs)
+
     def create(self, request, *args, **kwargs):
 
         if request.user.rol not in {"administrador", "mesero"}:
@@ -83,10 +93,11 @@ class PedidoViewSet(viewsets.ModelViewSet):
             status=status.HTTP_201_CREATED,
         )
 
+    @transaction.atomic
     @action(detail=True, methods=["patch"], url_path="estado")
     def cambiar_estado(self, request, pk=None):
 
-        pedido = self.get_object()
+        pedido = get_object_or_404(Pedido.objects.select_for_update(), pk=pk)
         nuevo = request.data.get("estado")
 
         if nuevo not in Pedido.Estado.values:
@@ -130,6 +141,33 @@ class PedidoViewSet(viewsets.ModelViewSet):
             ).data
         )
 
+    @action(detail=True, methods=["post"], url_path="cancelar")
+    def cancelar(self, request, pk=None):
+        if request.user.rol not in {"administrador", "mesero"}:
+            raise PermissionDenied("Solo el mesero o el administrador pueden cancelar pedidos.")
+        with transaction.atomic():
+            pedido = get_object_or_404(Pedido.objects.select_for_update(), pk=pk)
+            if pedido.estado not in {Pedido.Estado.ESPERA, Pedido.Estado.EN_PREPARACION, Pedido.Estado.LISTO}:
+                raise ValidationError({"pedido": "Solo se pueden cancelar pedidos aún no entregados."})
+            if not pedido.reserva_registrada:
+                raise ValidationError({"pedido": "Este pedido es anterior al control de reservas. Revisa el inventario antes de resolverlo manualmente."})
+            pago = Pago.objects.select_for_update().filter(pedido=pedido).first()
+            if pago and pago.estado in {Pago.Estado.COMPLETADO, Pago.Estado.REEMBOLSADO}:
+                raise ValidationError({"pedido": "Este pedido ya tiene un pago; debe revisarse el reembolso."})
+            cantidades = {}
+            for detalle in pedido.detalles.all():
+                cantidades[detalle.producto_id] = cantidades.get(detalle.producto_id, 0) + detalle.cantidad
+            for producto in Producto.objects.select_for_update().filter(pk__in=cantidades).order_by("pk"):
+                producto.stock += cantidades[producto.pk]
+                producto.save(update_fields=["stock"])
+            pedido.reservas_insumos.filter(estado=ReservaInsumo.Estado.RESERVADA).update(estado=ReservaInsumo.Estado.LIBERADA)
+            if pago and pago.estado == Pago.Estado.PENDIENTE:
+                pago.estado = Pago.Estado.FALLIDO
+                pago.save(update_fields=["estado", "actualizado_en"])
+            pedido.estado = Pedido.Estado.CANCELADO
+            pedido.save(update_fields=["estado", "actualizado_en"])
+        return Response(PedidoSerializer(pedido, context=self.get_serializer_context()).data)
+
 
 class PagoViewSet(viewsets.GenericViewSet):
 
@@ -168,7 +206,14 @@ class PagoViewSet(viewsets.GenericViewSet):
 
         with transaction.atomic():
 
+            pedido = get_object_or_404(Pedido.objects.select_for_update(), pk=serializer.validated_data["pedido"].pk)
+            if pedido.estado != Pedido.Estado.ENTREGADO:
+                raise ValidationError({"pedido": "El pedido debe estar entregado antes de registrar el pago."})
+            if Pago.objects.filter(pedido=pedido).exists():
+                raise ValidationError({"pedido": "Este pedido ya tiene un registro de pago."})
+
             if metodo == Pago.Metodo.EFECTIVO:
+                descontar_insumos(pedido)
                 pago = serializer.save(
                     estado=Pago.Estado.COMPLETADO,
                     pagado_en=timezone.now(),
@@ -187,17 +232,19 @@ class PagoViewSet(viewsets.GenericViewSet):
     def confirmar(self, request, pk=None):
 
         with transaction.atomic():
-
-            pago = get_object_or_404(
-                Pago.objects.select_for_update(),
-                pk=pk,
-            )
+            pago_inicial = get_object_or_404(Pago.objects.only("pedido_id"), pk=pk)
+            pedido = get_object_or_404(Pedido.objects.select_for_update(), pk=pago_inicial.pedido_id)
+            pago = get_object_or_404(Pago.objects.select_for_update(), pk=pk, pedido=pedido)
 
             if pago.estado != Pago.Estado.PENDIENTE:
                 raise ValidationError({
                     "estado": "Solo se pueden confirmar pagos pendientes."
                 })
 
+            if pedido.estado != Pedido.Estado.ENTREGADO:
+                raise ValidationError({"pedido": "El pedido debe estar entregado antes de confirmar el pago."})
+
+            descontar_insumos(pedido)
             pago.estado = Pago.Estado.COMPLETADO
             pago.pagado_en = timezone.now()
 
@@ -249,13 +296,17 @@ class PagoViewSet(viewsets.GenericViewSet):
                 pk__in=cantidades.keys()
             )
 
-            for producto in productos:
-                producto.stock += cantidades[producto.id]
+            # Un pedido nuevo ya entregado puede haberse consumido; un reembolso
+            # no devuelve físicamente los productos. Se conserva el comportamiento
+            # histórico de pedidos anteriores, cuyo stock no puede reconstruirse.
+            if not pago.pedido.reserva_registrada:
+                for producto in productos:
+                    producto.stock += cantidades[producto.id]
 
-                producto.save(update_fields=[
-                    "stock",
-                    "actualizado_en",
-                ])
+                    producto.save(update_fields=[
+                        "stock",
+                        "actualizado_en",
+                    ])
 
             # Actualizar el pago.
             pago.estado = Pago.Estado.REEMBOLSADO
@@ -270,6 +321,50 @@ class PagoViewSet(viewsets.GenericViewSet):
             ])
 
         return Response(self.get_serializer(pago).data)
+
+    @action(detail=False, methods=["get"], url_path="reporte-ventas")
+    def reporte_ventas(self, request):
+        if request.user.rol != "administrador":
+            raise PermissionDenied("Solo el administrador puede consultar el reporte de ventas.")
+        try:
+            desde = parse_date(request.query_params.get("desde", ""))
+            hasta = parse_date(request.query_params.get("hasta", ""))
+        except (ValueError, TypeError):
+            desde = hasta = None
+        if not desde or not hasta or desde > hasta:
+            raise ValidationError({"periodo": "Indica fechas válidas y verifica que Desde sea anterior o igual a Hasta."})
+
+        pagos = Pago.objects.filter(
+            estado__in=[Pago.Estado.COMPLETADO, Pago.Estado.REEMBOLSADO],
+            pagado_en__date__gte=desde, pagado_en__date__lte=hasta,
+        )
+        ventas = pagos.aggregate(total=Sum("monto"), cantidad=Count("id"))
+        reembolsos = Reembolso.objects.filter(
+            pago__estado=Pago.Estado.REEMBOLSADO,
+            fecha_hora_reembolso__date__gte=desde,
+            fecha_hora_reembolso__date__lte=hasta,
+        ).aggregate(total=Sum("importe_reembolsado"))
+        lineas = DetallePedido.objects.filter(pedido__pago__in=pagos)
+        subtotal = ExpressionWrapper(
+            F("cantidad") * F("precio_unitario"),
+            output_field=DecimalField(max_digits=20, decimal_places=2),
+        )
+        productos = list(lineas.values(
+            "producto_id", "producto__nombre", "producto__categoria__nombre"
+        ).annotate(unidades=Sum("cantidad"), total=Sum(subtotal)).order_by("producto__nombre", "producto_id"))
+        categorias = list(lineas.values(
+            "producto__categoria_id", "producto__categoria__nombre"
+        ).annotate(unidades=Sum("cantidad"), total=Sum(subtotal)).order_by("producto__categoria__nombre"))
+        bruto = ventas["total"] or Decimal("0.00")
+        devuelto = reembolsos["total"] or Decimal("0.00")
+        return Response({
+            "desde": desde.isoformat(), "hasta": hasta.isoformat(),
+            "cantidad_pagos": ventas["cantidad"],
+            "total_ventas": format(bruto, ".2f"),
+            "total_reembolsos": format(devuelto, ".2f"),
+            "total_neto": format(bruto - devuelto, ".2f"),
+            "productos": productos, "categorias": categorias,
+        })
 
     @action(detail=False, methods=["post"], url_path="conciliacion")
     def conciliacion(self, request):

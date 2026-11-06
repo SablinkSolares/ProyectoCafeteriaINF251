@@ -39,7 +39,7 @@ class AutenticacionTests(APITestCase):
 
 
 class PedidoTests(APITestCase):
-    def test_administrador_puede_editar_pedido(self):
+    def test_administrador_no_puede_saltar_estados_editando_pedido(self):
         administrador = User.objects.create_user(
             username="admin_test",
             password="Test12345",
@@ -55,7 +55,7 @@ class PedidoTests(APITestCase):
             format="json"
         )
 
-        self.assertEqual(respuesta.status_code, status.HTTP_200_OK)
+        self.assertEqual(respuesta.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_administrador_puede_eliminar_pedido(self):
         administrador = User.objects.create_user(
@@ -550,7 +550,7 @@ class PagoTests(APITestCase):
             stock=8
         )
 
-        self.pedido = Pedido.objects.create()
+        self.pedido = Pedido.objects.create(estado=Pedido.Estado.ENTREGADO)
 
         from .models import DetallePedido
 

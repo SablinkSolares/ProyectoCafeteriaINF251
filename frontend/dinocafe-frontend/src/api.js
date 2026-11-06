@@ -148,11 +148,12 @@ async function pedidosConPagos() {
 export const pedidosApi = {
   crear: (datos) => request("/pedidos/", { method: "POST", body: JSON.stringify(datos) }),
   listarCocina: () => request("/pedidos/?estado=ESPERA,EN_PREPARACION,LISTO"),
-  listarMesero: () => request("/pedidos/?estado=LISTO"),
+  listarMesero: () => request("/pedidos/?estado=ESPERA,EN_PREPARACION,LISTO"),
   listarCaja: pedidosConPagos,
   listarAdministrador: pedidosConPagos,
   cambiarEstado: (id, estado) =>
     request(`/pedidos/${id}/estado/`, { method: "PATCH", body: JSON.stringify({ estado }) }),
+  cancelar: (id) => request(`/pedidos/${id}/cancelar/`, { method: "POST", body: "{}" }),
   registrarPago: (id, datos) => request("/pagos/", {
     method: "POST", body: JSON.stringify({ pedido: id, monto: datos.monto, metodo: datos.metodo, referencia_qr: datos.referencia_qr || "" }),
   }),
@@ -162,6 +163,7 @@ export const pedidosApi = {
 
 export const reportesApi = {
   conciliacion: (datos) => request("/pagos/conciliacion/", { method: "POST", body: JSON.stringify(datos) }),
+  ventas: (desde, hasta) => request(`/pagos/reporte-ventas/?${new URLSearchParams({ desde, hasta })}`),
 };
 
 const usuariosNoDisponibles = async () => { throw new Error("La gestión de usuarios no está disponible en este servidor."); };
