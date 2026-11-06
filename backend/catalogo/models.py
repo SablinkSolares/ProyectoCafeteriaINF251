@@ -11,6 +11,7 @@ class Categoria(models.Model):
     nombre = models.CharField(max_length=80, unique=True)
 
     class Meta:
+        db_table = "categoria"
         ordering = ["nombre"]
         verbose_name = "categoría"
         verbose_name_plural = "categorías"
@@ -33,6 +34,7 @@ class Producto(models.Model):
     actualizado_en = models.DateTimeField(auto_now=True)
 
     class Meta:
+        db_table = "producto"
         ordering = ["nombre"]
         verbose_name = "producto"
         verbose_name_plural = "productos"
@@ -92,6 +94,7 @@ class ExistenciaProducto(models.Model):
     )
 
     class Meta:
+        db_table = "existencia_producto"
         constraints = [models.CheckConstraint(
             condition=models.Q(cantidad_stock__gte=0), name="existencia_stock_no_negativo"
         )]
@@ -106,6 +109,7 @@ class Insumo(models.Model):
     )
 
     class Meta:
+        db_table = "insumo"
         constraints = [models.CheckConstraint(
             condition=models.Q(cantidad_stock__gte=0), name="insumo_stock_no_negativo"
         )]
@@ -123,6 +127,7 @@ class ProductoInsumo(models.Model):
     )
 
     class Meta:
+        db_table = "producto_insumo"
         constraints = [
             models.UniqueConstraint(fields=["producto", "insumo"], name="producto_insumo_unico"),
             models.CheckConstraint(

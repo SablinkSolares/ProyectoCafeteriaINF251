@@ -23,6 +23,7 @@ class Pedido(models.Model):
     actualizado_en = models.DateTimeField(auto_now=True)
 
     class Meta:
+        db_table = "pedido"
         ordering = ["creado_en"]
         verbose_name = "pedido"
         verbose_name_plural = "pedidos"
@@ -48,6 +49,7 @@ class DetallePedido(models.Model):
     precio_unitario = models.DecimalField(max_digits=8, decimal_places=2)
 
     class Meta:
+        db_table = "detalle_pedido"
         verbose_name = "detalle de pedido"
         verbose_name_plural = "detalles de pedido"
 
@@ -105,6 +107,7 @@ class Pago(models.Model):
     actualizado_en = models.DateTimeField(auto_now=True)
 
     class Meta:
+        db_table = "pago"
         ordering = ["-creado_en"]
         verbose_name = "pago"
         verbose_name_plural = "pagos"
@@ -121,6 +124,7 @@ class Reembolso(models.Model):
     motivo = models.TextField(blank=True)
 
     class Meta:
+        db_table = "reembolso"
         constraints = [models.CheckConstraint(
             condition=models.Q(importe_reembolsado__gt=0), name="reembolso_importe_positivo"
         )]
