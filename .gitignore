@@ -3,7 +3,10 @@ backend/.venv/
 backend/db.sqlite3
 backend/**/__pycache__/
 backend/**/*.pyc
-frontend/dinocafe-frontend/node_modules/
-frontend/dinocafe-frontend/dist/
+frontend/node_modules/
+frontend/dist/
+.venv/
+backend/media/
+frontend/vitest-results.json
 .env
 *.log

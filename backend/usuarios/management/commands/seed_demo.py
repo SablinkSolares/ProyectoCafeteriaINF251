@@ -1,111 +1,77 @@
-"""Datos de demostración para probar las vistas de Carlos Quispe.
-
-Uso:
-    python manage.py seed_demo
-
-Es idempotente: actualiza usuarios y productos, y solo crea pedidos si la
-tabla está vacía. Las contraseñas son de prueba, nunca de producción.
-"""
-from datetime import timedelta
+"""Datos de demostración idempotentes; no reemplaza contraseñas ni inventario existente."""
+import unicodedata
 from decimal import Decimal
-
 from django.core.management.base import BaseCommand
+from django.db import transaction
 from django.utils import timezone
-
-from catalogo.models import Categoria, Producto
-from pedidos.models import DetallePedido, Pedido
+from catalogo.models import Categoria, Producto, Insumo, ProductoInsumo
+from pedidos.models import Pedido, Pago
+from pedidos.serializers import PedidoCreateSerializer
+from pedidos.insumos import descontar_insumos
+from pedidos.services import confirmar_pago
 from usuarios.models import Usuario
 
-USUARIOS = [
-    # usuario, contraseña, rol, staff, superusuario
-    ("admin", "admin123", Usuario.Rol.ADMINISTRADOR, True, True),
-    ("mesero", "mesero123", Usuario.Rol.MESERO, False, False),
-    ("cajero", "cajero123", Usuario.Rol.CAJERO, False, False),
-    ("cocina", "cocina123", Usuario.Rol.COCINA, False, False),
-]
-
 PRODUCTOS = [
-    # nombre, categoría, precio, stock
-    ("Té", "Bebidas", "5.00", 20),
-    ("Café", "Bebidas", "7.00", 15),
-    ("Cocoa", "Bebidas", "8.00", 4),
-    ("Cocoa con leche", "Bebidas", "9.50", 0),
-    ("Leche", "Bebidas", "6.00", 25),
-    ("Pan", "Acompañamientos", "3.00", 30),
-    ("Empanada", "Acompañamientos", "5.50", 12),
-    ("Trozo de torta", "Acompañamientos", "12.00", 3),
-    ("Trozo de rollo", "Acompañamientos", "10.00", 8),
-    ("Sándwich de huevo", "Acompañamientos", "9.00", 2),
+    ("Té", "Bebidas", "5.00", 20), ("Café", "Bebidas", "7.00", 15),
+    ("Cocoa", "Bebidas", "8.00", 4), ("Cocoa con leche", "Bebidas", "9.50", 0),
+    ("Leche", "Bebidas", "6.00", 25), ("Pan", "Acompañamientos", "3.00", 30),
+    ("Empanada", "Acompañamientos", "5.50", 12), ("Trozo de torta", "Acompañamientos", "12.00", 3),
+    ("Trozo de rollo", "Acompañamientos", "10.00", 8), ("Sándwich de huevo", "Acompañamientos", "9.00", 2),
 ]
-
-PEDIDOS = [
-    # estado, minutos desde ahora, [(producto, cantidad)]
-    (Pedido.Estado.ESPERA, 2, [("Café", 2), ("Pan", 1)]),
-    (Pedido.Estado.ESPERA, 9, [("Cocoa", 1), ("Trozo de torta", 1)]),
-    (Pedido.Estado.EN_PREPARACION, 14, [("Té", 1), ("Empanada", 2)]),
-    (Pedido.Estado.LISTO, 21, [("Cocoa con leche", 1), ("Sándwich de huevo", 1)]),
-    (Pedido.Estado.ENTREGADO, 35, [("Leche", 2), ("Trozo de rollo", 1)]),
-]
-
 
 class Command(BaseCommand):
-    help = "Crea usuarios, categorías, productos y pedidos de demostración."
+    help = "Crea datos demo sin sobrescribir cuentas, productos o existencias existentes."
 
-    def add_arguments(self, parser):
-        parser.add_argument(
-            "--reset-pedidos",
-            action="store_true",
-            help="Elimina los pedidos existentes y vuelve a crear los de demostración.",
-        )
-
+    @transaction.atomic
     def handle(self, *args, **options):
-        self._crear_usuarios()
-        self._crear_catalogo()
-        if options["reset_pedidos"] and Pedido.objects.exists():
-            Pedido.objects.all().delete()
-            self.stdout.write("  Pedidos anteriores eliminados.")
-        self._crear_pedidos()
-        self.stdout.write(self.style.SUCCESS("Datos de demostración listos."))
-        self.stdout.write("  admin/admin123 · mesero/mesero123 · cajero/cajero123 · cocina/cocina123")
-
-    def _crear_usuarios(self):
-        for username, password, rol, is_staff, is_superuser in USUARIOS:
-            usuario, creado = Usuario.objects.get_or_create(username=username)
-            usuario.rol = rol
-            usuario.is_staff = is_staff
-            usuario.is_superuser = is_superuser
-            usuario.is_active = True
-            usuario.set_password(password)
-            usuario.save()
-            estado = "creado" if creado else "actualizado"
-            self.stdout.write(f"  Usuario {username} ({rol}) {estado}.")
-
-    def _crear_catalogo(self):
-        for nombre, categoria_nombre, precio, stock in PRODUCTOS:
-            categoria, _ = Categoria.objects.get_or_create(nombre=categoria_nombre)
-            Producto.objects.update_or_create(
-                nombre=nombre,
-                categoria=categoria,
-                defaults={"precio": Decimal(precio), "stock": stock},
-            )
-        self.stdout.write(f"  {Categoria.objects.count()} categorías y {Producto.objects.count()} productos.")
-
-    def _crear_pedidos(self):
-        if Pedido.objects.exists():
-            self.stdout.write("  Los pedidos ya existen; no se recrean.")
-            return
-
-        for estado, minutos, lineas in PEDIDOS:
-            pedido = Pedido.objects.create(estado=estado)
-            for nombre_producto, cantidad in lineas:
-                producto = Producto.objects.get(nombre=nombre_producto)
-                DetallePedido.objects.create(
-                    pedido=pedido,
-                    producto=producto,
-                    cantidad=cantidad,
-                    precio_unitario=producto.precio,
-                )
-            # auto_now_add no admite fechas manuales; se ajusta después de crear.
-            creado_en = timezone.now() - timedelta(minutes=minutos)
-            Pedido.objects.filter(pk=pedido.pk).update(creado_en=creado_en)
-        self.stdout.write(f"  {Pedido.objects.count()} pedidos de ejemplo.")
+        catalogo_nuevo = not Producto.objects.exists()
+        usuarios = {}
+        for nombre, rol in [("admin","administrador"),("mesero","mesero"),("cajero","cajero"),("cocina","cocina")]:
+            usuario, nuevo = Usuario.objects.get_or_create(username=nombre, defaults={"rol":rol, "is_staff":nombre=="admin", "is_superuser":nombre=="admin"})
+            if nuevo:
+                usuario.set_password(nombre+"123")
+                usuario.save()
+            usuarios[nombre] = usuario
+        ingredientes = {}
+        for nombre, unidad, cantidad in [("Café molido","g",500),("Té en hojas","g",100),("Cocoa en polvo","g",400),("Leche fresca","ml",3000)]:
+            ingredientes[nombre], _ = Insumo.objects.get_or_create(nombre_insumo=nombre, defaults={"unidad_medida":unidad,"cantidad_stock":cantidad})
+        recetas = {"Café":[("Café molido","10")], "Té":[("Té en hojas","2")], "Cocoa":[("Cocoa en polvo","20")], "Cocoa con leche":[("Cocoa en polvo","20"),("Leche fresca","200")], "Leche":[("Leche fresca","200")]}
+        productos = {}
+        for nombre, cat, precio, stock in PRODUCTOS:
+            slug = unicodedata.normalize("NFKD",nombre).encode("ascii","ignore").decode().lower().replace(" ","-")
+            categoria, _ = Categoria.objects.get_or_create(nombre=cat, defaults={"imagen_carrusel":"/images/carrusel/"+("bebidas" if cat=="Bebidas" else "acompanamientos")+".jpg"})
+            producto, nuevo = Producto.objects.get_or_create(nombre=nombre, categoria=categoria, defaults={"precio":Decimal(precio),"stock":stock,"imagen":f"/images/productos/{slug}.jpg","preparable":nombre in recetas})
+            if not producto.imagen:
+                producto.imagen = f"/images/productos/{slug}.jpg"
+                producto.save(update_fields=["imagen"])
+            if nuevo and producto.preparable:
+                for insumo, cantidad in recetas[nombre]:
+                    ProductoInsumo.objects.create(producto=producto, insumo=ingredientes[insumo], cantidad_insumo_por_unidad=cantidad)
+            productos[nombre] = producto
+        if catalogo_nuevo and not Pedido.objects.exists():
+            for indice, (estado, lineas) in enumerate([
+                ("ESPERA",[("Café",2),("Pan",1)]),
+                ("EN_PREPARACION",[("Té",1),("Empanada",2)]),
+                ("LISTO",[("Cocoa",1),("Trozo de torta",1)]),
+                ("ENTREGADO",[("Leche",1),("Trozo de rollo",1)]),
+                ("ENTREGADO",[("Café",1)]),
+            ]):
+                serializer = PedidoCreateSerializer(data={"mesa":indice+1,"detalles":[{"producto":productos[n].pk,"cantidad":c} for n,c in lineas]})
+                serializer.is_valid(raise_exception=True)
+                p = serializer.save(registrado_por=usuarios["mesero"])
+                if estado != "ESPERA":
+                    descontar_insumos(p)
+                    p.preparado_por = usuarios["cocina"]
+                    p.en_preparacion_en = timezone.now()
+                if estado in {"LISTO","ENTREGADO"}:
+                    p.listo_por = usuarios["cocina"]
+                    p.listo_en = timezone.now()
+                if estado == "ENTREGADO":
+                    p.entregado_por = usuarios["mesero"]
+                    p.entregado_en = timezone.now()
+                p.estado = estado
+                p.save()
+                if indice == 4:
+                    pago = Pago.objects.create(pedido=p,monto=p.total,monto_recibido=10,metodo="EFECTIVO",creado_por=usuarios["cajero"])
+                    confirmar_pago(pago,usuarios["cajero"])
+        self.stdout.write(self.style.SUCCESS("Datos demo listos. Cuentas nuevas: admin/admin123, mesero/mesero123, cajero/cajero123, cocina/cocina123."))

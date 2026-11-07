@@ -1,0 +1,10 @@
+{
+  "pantallas": [
+    "escritorio",
+    "tablet",
+    "celular"
+  ],
+  "errores_js": [],
+  "actualizacion_stock": "Guardado desde el catálogo y visualización comprobados",
+  "stock_restaurado": true
+}

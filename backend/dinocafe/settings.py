@@ -1,4 +1,4 @@
-"""Configuración de Django para el backend de prueba de DinoCafé.
+"""Configuración de Django para DinoCafé.
 
 Por defecto usa SQLite para que el frontend pueda correr sin instalar nada más.
 Para PostgreSQL (entorno Docker o local) define DB_ENGINE=postgres y las
@@ -7,8 +7,10 @@ variables POSTGRES_* correspondientes.
 import os
 from datetime import timedelta
 from pathlib import Path
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / ".env")
 
 SECRET_KEY = os.environ.get(
     "DJANGO_SECRET_KEY",
@@ -89,6 +91,9 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+QR_WEBHOOK_SECRET = os.environ.get("QR_WEBHOOK_SECRET", "")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "usuarios.Usuario"
@@ -100,6 +105,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:4173",
     "http://127.0.0.1:4173",
 ]
+CORS_ALLOWED_ORIGINS += [o for o in os.environ.get("CORS_EXTRA_ORIGINS", "").split(",") if o]
 CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS
 
 REST_FRAMEWORK = {

@@ -1,4 +1,4 @@
-"""Permisos reutilizables de la capa de negocio de prueba."""
+"""Permisos reutilizables de la capa de negocio."""
 from rest_framework.permissions import BasePermission
 
 

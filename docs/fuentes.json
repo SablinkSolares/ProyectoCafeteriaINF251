@@ -1,0 +1,1265 @@
+[
+  {
+    "origen": "ProyectoCafeteriaINF251-dorian",
+    "archivos": [
+      {
+        "archivo": ".gitignore",
+        "sha256": "652555976835459068db8abf4778ce86cb2817f602da524be098b857f69f0144"
+      },
+      {
+        "archivo": "docker-compose.yml",
+        "sha256": "281e73138187bb37b713a3d4da7d0d21f7856472a429eef1e19100824f31ebdd"
+      },
+      {
+        "archivo": "README.md",
+        "sha256": "480c03d63159457cfd5da7715825b48a77819f566ee4b44b2862a148a564950a"
+      },
+      {
+        "archivo": "backend/.dockerignore",
+        "sha256": "a0655996ce49776294c144cfd60ce18d413718d6b74791261fedc5696988bc50"
+      },
+      {
+        "archivo": "backend/.env.example",
+        "sha256": "b8f29893b4f7f95cab9215205640b50925a0f44e6993a1c89758a02d2b6416c0"
+      },
+      {
+        "archivo": "backend/Dockerfile",
+        "sha256": "99dd5f9bd8a35543dcce19dc1214e6dcae1448fddfdfc84f3f889a599d57fd5a"
+      },
+      {
+        "archivo": "backend/manage.py",
+        "sha256": "dbc4331693a154655374d277a591e74b7fa7c320e23636c31ba87afbd330d602"
+      },
+      {
+        "archivo": "backend/requirements.txt",
+        "sha256": "976c48bbea5199c6a1db4136324d2e2a98cc42fa53c66780695b6bb632e92707"
+      },
+      {
+        "archivo": "backend/catalogo/admin.py",
+        "sha256": "5ecf40f220f9917187b7191d9ea891264e73bbdd60a51c2eb3e271572842d59a"
+      },
+      {
+        "archivo": "backend/catalogo/apps.py",
+        "sha256": "2329bc86ec104ecb100f3bd2db1b2d402a1071b340a341a5c30191c7e12e6953"
+      },
+      {
+        "archivo": "backend/catalogo/models.py",
+        "sha256": "92e42f3969b18d8f8c62ae6b7564490e2aa843aa80a605bd5633cff6102211a8"
+      },
+      {
+        "archivo": "backend/catalogo/serializers.py",
+        "sha256": "6992602ee27c4c0bbfc125197814378cfa206d41237922d376f3941073e10133"
+      },
+      {
+        "archivo": "backend/catalogo/test.py",
+        "sha256": "77b126631eced8f02670dce4a7fa131de45ca6a1bdc0afe4e8904b43e819cc80"
+      },
+      {
+        "archivo": "backend/catalogo/test_nuevos_modelos.py",
+        "sha256": "1781624801bbee6097871928a9fb2d967913539ec3027aca02d144eb01b32f03"
+      },
+      {
+        "archivo": "backend/catalogo/urls.py",
+        "sha256": "8c91cbfd784e0cb13ff4c6eff91e5ab032abe29b6946bb3b32315d8a1f74d422"
+      },
+      {
+        "archivo": "backend/catalogo/views.py",
+        "sha256": "1d9727cdc59cbaa7becd987e2d77b9cee149ba0f91f7a9fa0ce3912fa90bb79c"
+      },
+      {
+        "archivo": "backend/catalogo/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/dinocafe/asgi.py",
+        "sha256": "c169d21f164f2b9f94bb185deffa3b4e83c2e547c61a933dba95fbb8971c9edb"
+      },
+      {
+        "archivo": "backend/dinocafe/permissions.py",
+        "sha256": "b8a34e3ef34c2212c016f7ca20efa0a85e55496e9642895e4f84dfdc1bc7ad96"
+      },
+      {
+        "archivo": "backend/dinocafe/settings.py",
+        "sha256": "d4badd3a2dd3906cf95b2620d04cd7e7912f0e5c7f1bf998fafbaaa4fa50fd9d"
+      },
+      {
+        "archivo": "backend/dinocafe/urls.py",
+        "sha256": "34f6f5fe2ceecf1ec5191d6039ef9f0c4318105f929b7a0ff29670b9e8f6f461"
+      },
+      {
+        "archivo": "backend/dinocafe/views.py",
+        "sha256": "4b8c93cf88bdb5b38c8f5c7f80c4f50e136a96f62d0aa2a6c6b55ce672bff08b"
+      },
+      {
+        "archivo": "backend/dinocafe/wsgi.py",
+        "sha256": "11c62a4667d14fbe2dad748495e75a19ca2978e1357b6a48b564918e620aa88b"
+      },
+      {
+        "archivo": "backend/dinocafe/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/pedidos/admin.py",
+        "sha256": "7f6a0c3b4a101a15b2e4fd8eafadab64ae26cb907fe0441a19e17975987136fc"
+      },
+      {
+        "archivo": "backend/pedidos/apps.py",
+        "sha256": "b193772bd9abc3db48fb8b795ed0bde5d89eec58023c486ed140642237f1f007"
+      },
+      {
+        "archivo": "backend/pedidos/insumos.py",
+        "sha256": "58ca1a7880aecea979d4b9c3a2803b7cc5f1f7d1032108a1d5912fe0a3b8af04"
+      },
+      {
+        "archivo": "backend/pedidos/models.py",
+        "sha256": "38a1e92ccbbe53dab69c5b8e3c6054e3bd6c6469d5f560cf263e948d5c9f501c"
+      },
+      {
+        "archivo": "backend/pedidos/serializers.py",
+        "sha256": "e1f82e515d14c6e7686ccf6cca17c0a43412f4e54eb18a7e88fc20dac7e65b40"
+      },
+      {
+        "archivo": "backend/pedidos/test.py",
+        "sha256": "9a2c59afbe84f1bfba27fe9900114943ba41ba9a06b58925fc6073152ed5a5b6"
+      },
+      {
+        "archivo": "backend/pedidos/test_nuevos_modelos.py",
+        "sha256": "26b66664802b7e1211ed453a92773eac5f59658986749a1d0e2db3512fe9d727"
+      },
+      {
+        "archivo": "backend/pedidos/test_reservas.py",
+        "sha256": "f50b626df2a60eb679d2b7f1dcedd815e09ab97e5a866cfb6bd792c5cb53f60f"
+      },
+      {
+        "archivo": "backend/pedidos/test_ventas_insumos.py",
+        "sha256": "7ab653dfed5bf21173a4df64767b2141d38149df1048164e022f9cd5b8660903"
+      },
+      {
+        "archivo": "backend/pedidos/urls.py",
+        "sha256": "3cca492e9ba3b12a83525a73c8efbf08851fbab09e2db36a1a2b2c228b79d09b"
+      },
+      {
+        "archivo": "backend/pedidos/views.py",
+        "sha256": "355fcd952c9f553ddd91325031c8cbabf18476b13adc45d282a3bb28163a96ec"
+      },
+      {
+        "archivo": "backend/pedidos/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/scripts/smoke_api.mjs",
+        "sha256": "ecbb89aae430203c2c4beca812096884c7c494c738297ec54f8ea614dd452c6a"
+      },
+      {
+        "archivo": "backend/usuarios/admin.py",
+        "sha256": "9603868ecb48a1a67c27a530fdaccb5d226914be9a5b363c12032b511bc7a0fc"
+      },
+      {
+        "archivo": "backend/usuarios/apps.py",
+        "sha256": "702efc65d02ac6a559aa2806c971cb68159040a32acda258f0d8d999fae8f23a"
+      },
+      {
+        "archivo": "backend/usuarios/models.py",
+        "sha256": "5df798ecf87bd0eb45a69004d39519a176abd3d0ec50e1fbdc7cdba7f3c6f138"
+      },
+      {
+        "archivo": "backend/usuarios/serializers.py",
+        "sha256": "615d6763ab955cb1c3516a1846edf5bd89b93414d4350144b1514cbd055deb2e"
+      },
+      {
+        "archivo": "backend/usuarios/test.py",
+        "sha256": "cb4281f3b2f0e642e9f05f77674622c77c7d2724cc15405dedd817438926f42a"
+      },
+      {
+        "archivo": "backend/usuarios/test_cuentas.py",
+        "sha256": "3df75dae166b0c80bf815a420c8f18e3219099fb11f0540fde8b86460b7880ed"
+      },
+      {
+        "archivo": "backend/usuarios/urls.py",
+        "sha256": "1181a77d9d6869cc2e7edd36d914d2372eb9ca5c4acd5930b055430f91f59080"
+      },
+      {
+        "archivo": "backend/usuarios/views.py",
+        "sha256": "a9ec56e8fb0ae953c46f7c83697d70f4c36a75b84bea7b0191753841b99515a4"
+      },
+      {
+        "archivo": "backend/usuarios/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/catalogo/migrations/0001_initial.py",
+        "sha256": "2434c77651507e4c37e8516ff62be3b21d2464fcea9ed85372aea1bcbafe5398"
+      },
+      {
+        "archivo": "backend/catalogo/migrations/0002_producto_producto_categoria_idx_and_more.py",
+        "sha256": "d08a03d3faf7004211665e4a0f567e192a9ac15314640f060012bfbac4efef88"
+      },
+      {
+        "archivo": "backend/catalogo/migrations/0003_indice_busqueda_trigramas.py",
+        "sha256": "7f8bd05b2e66466e835f1a9b0dfc452311639f867cdfe064d8b9716aeb79fe12"
+      },
+      {
+        "archivo": "backend/catalogo/migrations/0004_existenciaproducto_insumo_productoinsumo_and_more.py",
+        "sha256": "01175a8cd2628d66b0e942ebbb3d0fb8415c2a970b30e4e796806b6f6bdb2067"
+      },
+      {
+        "archivo": "backend/catalogo/migrations/0005_alter_categoria_table_alter_existenciaproducto_table_and_more.py",
+        "sha256": "d0c7ae9f7e442a1b8ba73484c4160967b063da17bc12ceee1f3a4353704d9ae7"
+      },
+      {
+        "archivo": "backend/catalogo/migrations/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/pedidos/migrations/0001_initial.py",
+        "sha256": "b47ae56b886ee315e4e82c5faa699fadeef87768b091c1cafa207f5d85e9e615"
+      },
+      {
+        "archivo": "backend/pedidos/migrations/0002_pago.py",
+        "sha256": "08c4200ee2f7be2f267a858fa21bd946b721f0d827d102f09eb4cbde66454f47"
+      },
+      {
+        "archivo": "backend/pedidos/migrations/0003_remove_pago_motivo_reembolso_and_more.py",
+        "sha256": "9b1671df37bbd7a11ec0306937793111d753f349d9e6ee11fb5fa5f58d5c4a7a"
+      },
+      {
+        "archivo": "backend/pedidos/migrations/0004_alter_detallepedido_table_alter_pago_table_and_more.py",
+        "sha256": "8d457e9e3462de0652bba1c13eeeccbcec84691c35592d52eb9fd003a40be85f"
+      },
+      {
+        "archivo": "backend/pedidos/migrations/0005_pedido_reserva_registrada_alter_pedido_estado_and_more.py",
+        "sha256": "1140179ecd10477498fb33979659601d9f1054963827d3436888bfda7cde39a4"
+      },
+      {
+        "archivo": "backend/pedidos/migrations/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/usuarios/management/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/usuarios/migrations/0001_initial.py",
+        "sha256": "9a46c4aae96154c563153dd15a401421dcf58f9eecf542cae9ecd91ad675222b"
+      },
+      {
+        "archivo": "backend/usuarios/migrations/0002_alter_usuario_table.py",
+        "sha256": "0c4a37a73c28a167ac8bb5d617308b7a5df8fc8878c1fec0e6223d4a4b20e3cb"
+      },
+      {
+        "archivo": "backend/usuarios/migrations/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/usuarios/management/commands/seed_demo.py",
+        "sha256": "6fbae381fcc8f0ac1b4eb615c2cfa22895979dde4775a6e8af84dfca70b53674"
+      },
+      {
+        "archivo": "backend/usuarios/management/commands/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/.env.example",
+        "sha256": "5da7d5697466dc60c9f0d43b4945ff9c230aeb85f209610e091d091a234fe2ec"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/index.html",
+        "sha256": "a101a5e753de9ee176f6b4364c96c05414b218201909014d58d28f8a43fd9ef3"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/package-lock.json",
+        "sha256": "5d3612a9d6bc8dade8ee7e87405f3aec7a54e94359cf17c4d10814d9da4b795d"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/package.json",
+        "sha256": "6bb6e155a0a7addbb8f80610ff26337cc53535c7ba770c8c405bdce1718e0d5e"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/README.md",
+        "sha256": "2bfc23a52e50f939969e3c361fb516027d5efabe0c31284a33a39d2d8df67089"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/vite.config.js",
+        "sha256": "c71f7a8b16275f0af6dbb00e20840a70b61c220a51d458b6af590c94b2059144"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/LEEME-QR.txt",
+        "sha256": "0fb4e29755f052c98a57e1f5301686a40e42a6668cb487fb9a2c7dea13f90762"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/qr-demostracion.svg",
+        "sha256": "ce76c24fe263eddacf77e4c9f071dfa99fa73ec526583757f6966b1456a712b5"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/api.js",
+        "sha256": "a0abc84ae49d1b2cf8c23293e5ec2a9296bea9d8b3f8226622fbb43d52951a08"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/api.test.js",
+        "sha256": "80f3de03e4237f1c514f7a745904fef4ef2fa1612c5ea97132b46754809eb60f"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/App.jsx",
+        "sha256": "40fe01bb5feb3cdd01c1dd06302917f7ef641f544554076570ef9ac2b21a1718"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/App.test.jsx",
+        "sha256": "087bb36c27ef76eb44e09376a2c09c707cf3c647fef95ecc964d48f810db403b"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/main.jsx",
+        "sha256": "09a82166bc594d70261aa6f33a8fec7b5fe22949f4fb2abaef3b7447ef8d9981"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/styles.css",
+        "sha256": "2924094f8d52e0ceb0de8a099f41501ac44ff1921a717c710a997eaf8e2148c5"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/dinocafe-logo.svg",
+        "sha256": "99a86f7689476a52e5deae6f172143ba1bb2f6da13a820e6fd2f4e7177aba68f"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/carrusel/acompanamientos.jpg",
+        "sha256": "c1c4ffe71257d1875808406091ff1fe0aca1e2dd343d48031dfd6e1a27fe3046"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/carrusel/bebidas.jpg",
+        "sha256": "60d8eb9102e846d9a2260872beac480b895cee7d9e3c6f99ca464dc45796decf"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/carrusel/README-IMAGENES.txt",
+        "sha256": "75f225a24af7f07d505054ed33f1314ecfca149ac17e487ca9cf8adceacddb6c"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/cafe.jpeg",
+        "sha256": "a3a5ad6f98018be9c3b8b26a5c15d426fe598067a1a70fc381a6258cd3db96f8"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/cafe.jpg",
+        "sha256": "3d75d65c4093a2fe89388706ad9a1053435b3a031ef922e57e5e00bb02911afd"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/cocoa-con-leche.jpeg",
+        "sha256": "cb9cf908d372160ecae882941b63f336ee8bdb054c30a22036ef2c8b1ba67107"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/cocoa-con-leche.jpg",
+        "sha256": "7d38a58c68a8b9cf27d87c43aab808075b636daddc7491f27c14a2f0e327d459"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/cocoa.jpeg",
+        "sha256": "d317f11186be976ff365b2a81332a55d8d9eda3949396d143092d217e29c7ede"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/cocoa.jpg",
+        "sha256": "1e0320c1116fe18e9a15c9d46a9f394abd0bb2518f1e690e907b2465ca6352c8"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/empanada.jpeg",
+        "sha256": "d38c6188645601203759995f8f9e2262c9972d4eea23484350e705f2e5fbe9ca"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/empanada.jpg",
+        "sha256": "072a1a1fee4efa7add4eeecb9d9c156852427f75c98786cf17e3b8aba34cfab3"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/leche.jpeg",
+        "sha256": "7219c19e2bfbb0c580483ca83688d4158be0ea4dcb4cd108bf7419335a793e67"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/leche.jpg",
+        "sha256": "8674384e50158c99dbf88552fd83d847c46b85f0d05c8d289ec37671be7a325e"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/pan.jpeg",
+        "sha256": "d54584091bb8a5defdf22e0d5a76ee3cc98acc74144ec1487608b8ffceaddcd8"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/pan.jpg",
+        "sha256": "54bee78e07fd08f9907c9956fff0d789853e9003e663b420fab44302944ca2d6"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/README-IMAGENES.txt",
+        "sha256": "3f78d55a82ce64945d488b4b751c204783a3634d7ace1f72714bcdfcab29b8fd"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/sandwich-de-huevo.jpg",
+        "sha256": "3f9e7cdceb52d8da34cf80ccccbdfc2f9d94430639494412bc0216a346afacbb"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/sandwich-de-huevo.png",
+        "sha256": "137837636d096cbaf57feed42f60ffd9a69b3a966c8179546d17c53a4a0e58b4"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/te.jpeg",
+        "sha256": "c9c12fa2417ac2d284f3a26692b04c875f706f9c2e79c8eba08bbd7b27bc8614"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/te.jpg",
+        "sha256": "868d9de1f55aff800876879bbaebde373e2ec4a3089e1a36abad0e43fdbf17df"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/trozo-de-rollo.jpeg",
+        "sha256": "2568b9bc9dfb799f8fd5bb4b9773005278c79b4525a9cce30afe8d7349f086af"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/trozo-de-rollo.jpg",
+        "sha256": "212c42c96952f9176d29b34ccf404257188aefef69c969b54f7685d80889e1be"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/trozo-de-torta.jpeg",
+        "sha256": "d05d5e533d120c60b2f821738c2dfafbcd42512c4cdffd478711d9bee0ffab2d"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/trozo-de-torta.jpg",
+        "sha256": "c8bbbb00d763938a34f0dc1fe26b1facebdbb81b42a93e85083b98796c204529"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/BuscadorProductos.jsx",
+        "sha256": "ce9a9488dd1ab4498a1e0f8e9cf17b2beeb0c3e274b2f57a0827c439515b07d6"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/BuscadorProductos.test.jsx",
+        "sha256": "11ff321c8475d81d827c317086b7d4ad3d41704426849ff284eada09e658a75f"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/CarruselCategorias.jsx",
+        "sha256": "2441c91c48c0393d73d04832edae7a5693c693c632bce7a3833488e31cf19c07"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/Catalogo.integracion.test.jsx",
+        "sha256": "b2ef3ff76893d8464267c613d5f745d4a8570e01e213e24998da75478e2a0c95"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/Catalogo.jsx",
+        "sha256": "75cdfaf0dc95bf3be5d344300dde286b4effc3d3517e2a0543fa77070ed8b113"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/Catalogo.test.jsx",
+        "sha256": "1c0e519a31c9007a10e4c88fcc23f3fd1596ddbeae3215a0aa11165e687a6103"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/GestionUsuarios.jsx",
+        "sha256": "d6e46bc02f346ee050701a2555a2a4db194b46ff1fa6ca6e67c209fe4934ccb6"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/GestionUsuarios.test.jsx",
+        "sha256": "146bdac3a9c6f37735e66ade7f5fd1d5afad7cfa43af53bad57cd66e06b974b8"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/ImagenProducto.jsx",
+        "sha256": "abbc6472cdda0c6bec432b4756472fcf9e93c7fe9147f6f89ec32a78391be979"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/Login.jsx",
+        "sha256": "c6fa798c07976c8f1fd3d7a49f23a5cef67881d3d7ec7808dcab30226d07263a"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/Login.test.jsx",
+        "sha256": "716263e8dc959d372e2141ead4520531e0af8e6290b226c29046f6b8ace52662"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/LoginDev.jsx",
+        "sha256": "5b49e01228a642a7c335c65009baa54fdb7f57db83be4fc65d0b3da67eb549df"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/ProductoForm.jsx",
+        "sha256": "4fba4227eab7d72e45335021a6c4d075a5a8f732c0b6755fc0b44e2f2a84b14e"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/ProductoForm.test.jsx",
+        "sha256": "e70a6673b00f5e5b4558d4b9ac8c16f4181d4de9eb8962dc8f9e96d0f719e9db"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/ReportesVentas.jsx",
+        "sha256": "60dc93b074f377be1f4c344d5617f851df102d9e333bfbe07e5b5e9a81f37d95"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/ReportesVentas.test.jsx",
+        "sha256": "16c0c5734fc7c155593be2aab5b4b5a11bb212645031fe5faa2caa0cbe1dbac1"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/SeguimientoPedidos.jsx",
+        "sha256": "6632df3dc58fb14bec44b9897d51bd0e871230aaef9827ec4a475f3b2e263110"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/StockBadge.jsx",
+        "sha256": "56be77aaff3f1256ae28c3fbd34879ced1120ff5ebd5cf6a40304e5a7de2d1af"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/StockBadge.test.jsx",
+        "sha256": "dfb533b93df3a7a1a22166f7249814ae4e742dcfeb94b6be9d315dcabb761b2a"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/VistaCaja.jsx",
+        "sha256": "7433fc7e8c0d693b0e4b78ecae6425a8b056568432e1582e8cab216646502d71"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/VistaCaja.test.jsx",
+        "sha256": "d433400ed1716019f28a44ada9c1d2c2fb0d6b907297253ae883e26889ece303"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/VistaCocina.jsx",
+        "sha256": "9bffeefe64b60066e85e976c8023a990e063b7afeadc72cd816b64c55d677f5b"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/VistaCocina.test.jsx",
+        "sha256": "6f356cf2c3446d0eca45776cce09124a9db92eb104fa06f6d6f3254c8eede965"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/VistaMesero.jsx",
+        "sha256": "e88466f401dbb33b0d72896fccbc5f029029ca7fc6b1d0888bf0ade512f0b414"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/VistaMesero.test.jsx",
+        "sha256": "a35a35ee6b48b2a14cd126115bfaf8b15948c23f72422918d9314fe21fe4245e"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/test/setup.js",
+        "sha256": "60aa525f7ffa6bfd3045d22710d4eeef3a5ff2074ecc3dbcef99374badebad17"
+      }
+    ]
+  },
+  {
+    "origen": "ProyectoCafeteriaINF251-full",
+    "archivos": [
+      {
+        "archivo": ".gitignore",
+        "sha256": "652555976835459068db8abf4778ce86cb2817f602da524be098b857f69f0144"
+      },
+      {
+        "archivo": "docker-compose.yml",
+        "sha256": "281e73138187bb37b713a3d4da7d0d21f7856472a429eef1e19100824f31ebdd"
+      },
+      {
+        "archivo": "README.md",
+        "sha256": "480c03d63159457cfd5da7715825b48a77819f566ee4b44b2862a148a564950a"
+      },
+      {
+        "archivo": "backend/.dockerignore",
+        "sha256": "a0655996ce49776294c144cfd60ce18d413718d6b74791261fedc5696988bc50"
+      },
+      {
+        "archivo": "backend/.env.example",
+        "sha256": "b8f29893b4f7f95cab9215205640b50925a0f44e6993a1c89758a02d2b6416c0"
+      },
+      {
+        "archivo": "backend/Dockerfile",
+        "sha256": "99dd5f9bd8a35543dcce19dc1214e6dcae1448fddfdfc84f3f889a599d57fd5a"
+      },
+      {
+        "archivo": "backend/manage.py",
+        "sha256": "dbc4331693a154655374d277a591e74b7fa7c320e23636c31ba87afbd330d602"
+      },
+      {
+        "archivo": "backend/requirements.txt",
+        "sha256": "ca5e103ff46ef05890215bede2b576897ce21ed80542b64688f3e472372cf00e"
+      },
+      {
+        "archivo": "backend/catalogo/admin.py",
+        "sha256": "affeebf5c30ed8d6fbdebb48873cd48cfbcb9edd8f048afdd80a22d788c09b4e"
+      },
+      {
+        "archivo": "backend/catalogo/apps.py",
+        "sha256": "2329bc86ec104ecb100f3bd2db1b2d402a1071b340a341a5c30191c7e12e6953"
+      },
+      {
+        "archivo": "backend/catalogo/models.py",
+        "sha256": "87159c552377c740926bf0c1904fcdb1048cd5358774f730eabc3587791016a8"
+      },
+      {
+        "archivo": "backend/catalogo/serializers.py",
+        "sha256": "00a72a24588177d368e97cab0e01b5fea18c3362e95ea10a8e69fdb1786bbf8d"
+      },
+      {
+        "archivo": "backend/catalogo/urls.py",
+        "sha256": "8c91cbfd784e0cb13ff4c6eff91e5ab032abe29b6946bb3b32315d8a1f74d422"
+      },
+      {
+        "archivo": "backend/catalogo/views.py",
+        "sha256": "639fc863a6d5662584f17f965209a94cafb6ad2ac571d34b848a7c9399c01efa"
+      },
+      {
+        "archivo": "backend/catalogo/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/dinocafe/asgi.py",
+        "sha256": "c169d21f164f2b9f94bb185deffa3b4e83c2e547c61a933dba95fbb8971c9edb"
+      },
+      {
+        "archivo": "backend/dinocafe/permissions.py",
+        "sha256": "b8a34e3ef34c2212c016f7ca20efa0a85e55496e9642895e4f84dfdc1bc7ad96"
+      },
+      {
+        "archivo": "backend/dinocafe/settings.py",
+        "sha256": "d4badd3a2dd3906cf95b2620d04cd7e7912f0e5c7f1bf998fafbaaa4fa50fd9d"
+      },
+      {
+        "archivo": "backend/dinocafe/urls.py",
+        "sha256": "04d812aa9705c1763bbcf758694311517a70ff7e340dc24acc45ff6656184fd6"
+      },
+      {
+        "archivo": "backend/dinocafe/views.py",
+        "sha256": "4b8c93cf88bdb5b38c8f5c7f80c4f50e136a96f62d0aa2a6c6b55ce672bff08b"
+      },
+      {
+        "archivo": "backend/dinocafe/wsgi.py",
+        "sha256": "11c62a4667d14fbe2dad748495e75a19ca2978e1357b6a48b564918e620aa88b"
+      },
+      {
+        "archivo": "backend/dinocafe/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/pedidos/admin.py",
+        "sha256": "7f6a0c3b4a101a15b2e4fd8eafadab64ae26cb907fe0441a19e17975987136fc"
+      },
+      {
+        "archivo": "backend/pedidos/apps.py",
+        "sha256": "b193772bd9abc3db48fb8b795ed0bde5d89eec58023c486ed140642237f1f007"
+      },
+      {
+        "archivo": "backend/pedidos/models.py",
+        "sha256": "7a0c663bbfa18943a3c9fec2ea15e0a5cd25b9c2b634bb7d4a8e78b6e9b44108"
+      },
+      {
+        "archivo": "backend/pedidos/serializers.py",
+        "sha256": "1b9f3c1d5606313720055a9e16b673ae4bde5ac8f3c26babf97f577235e6bd86"
+      },
+      {
+        "archivo": "backend/pedidos/urls.py",
+        "sha256": "036e18b213cf17c2645c72025da7af217f2956602f6be389c971126dc160c381"
+      },
+      {
+        "archivo": "backend/pedidos/views.py",
+        "sha256": "9f8d15f5c3ca292d4f905eac70bcaf3ea56c961fee4024b792ecebcd068e2ccf"
+      },
+      {
+        "archivo": "backend/pedidos/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/scripts/smoke_api.mjs",
+        "sha256": "ecbb89aae430203c2c4beca812096884c7c494c738297ec54f8ea614dd452c6a"
+      },
+      {
+        "archivo": "backend/usuarios/admin.py",
+        "sha256": "9603868ecb48a1a67c27a530fdaccb5d226914be9a5b363c12032b511bc7a0fc"
+      },
+      {
+        "archivo": "backend/usuarios/apps.py",
+        "sha256": "702efc65d02ac6a559aa2806c971cb68159040a32acda258f0d8d999fae8f23a"
+      },
+      {
+        "archivo": "backend/usuarios/models.py",
+        "sha256": "ba5924f7c9d4239d32cd6b88265c6b6ddf7b53afbde5ab557d0880f948645e80"
+      },
+      {
+        "archivo": "backend/usuarios/serializers.py",
+        "sha256": "7f85723dff417d278b419a25e3e307d007ce9b7e24ac62fb091a55ccd198f547"
+      },
+      {
+        "archivo": "backend/usuarios/urls.py",
+        "sha256": "1181a77d9d6869cc2e7edd36d914d2372eb9ca5c4acd5930b055430f91f59080"
+      },
+      {
+        "archivo": "backend/usuarios/views.py",
+        "sha256": "a6f4571bf14b96f5df680a815326f45674027365b488478f1e8f0720b24e02f1"
+      },
+      {
+        "archivo": "backend/usuarios/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/catalogo/migrations/0001_initial.py",
+        "sha256": "2434c77651507e4c37e8516ff62be3b21d2464fcea9ed85372aea1bcbafe5398"
+      },
+      {
+        "archivo": "backend/catalogo/migrations/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/pedidos/migrations/0001_initial.py",
+        "sha256": "b47ae56b886ee315e4e82c5faa699fadeef87768b091c1cafa207f5d85e9e615"
+      },
+      {
+        "archivo": "backend/pedidos/migrations/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/usuarios/management/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/usuarios/migrations/0001_initial.py",
+        "sha256": "9a46c4aae96154c563153dd15a401421dcf58f9eecf542cae9ecd91ad675222b"
+      },
+      {
+        "archivo": "backend/usuarios/migrations/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/usuarios/management/commands/seed_demo.py",
+        "sha256": "064920775728bafb81b0727923db809f19f8ad338af0562e4fb445ef4ff235fc"
+      },
+      {
+        "archivo": "backend/usuarios/management/commands/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/.env.example",
+        "sha256": "5da7d5697466dc60c9f0d43b4945ff9c230aeb85f209610e091d091a234fe2ec"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/index.html",
+        "sha256": "296315d387ce95192169b84490b5e21707891409bb3e7f0b82db246b3c27f144"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/package-lock.json",
+        "sha256": "e5d3b6a0c3868da6b837ce89d3e5d805d6a60ce70981260624b18a6d58606128"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/package.json",
+        "sha256": "6bb6e155a0a7addbb8f80610ff26337cc53535c7ba770c8c405bdce1718e0d5e"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/README.md",
+        "sha256": "414a6b6437d76501cf4b6124acd317fa8649e2b032352dd48775312ca57e9b79"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/vite.config.js",
+        "sha256": "c71f7a8b16275f0af6dbb00e20840a70b61c220a51d458b6af590c94b2059144"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/api.js",
+        "sha256": "256c7e58b9fe57cdea8c2f1ff1c107cd4b552524380beeb6aaa2a68e41294aa0"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/App.jsx",
+        "sha256": "23d41eb739cee95916b842cd4f00487a692f35b13e2f127b432bf0efb7fe92af"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/main.jsx",
+        "sha256": "09a82166bc594d70261aa6f33a8fec7b5fe22949f4fb2abaef3b7447ef8d9981"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/styles.css",
+        "sha256": "cfdef56814ae9d1e30ee7e3bdf11646bbaecde8678632b4d8651c0c359faf802"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/BuscadorProductos.jsx",
+        "sha256": "d5d6c6b0e83582045dff370d049867166f11632e4148fe750c3726b464577430"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/BuscadorProductos.test.jsx",
+        "sha256": "11ff321c8475d81d827c317086b7d4ad3d41704426849ff284eada09e658a75f"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/Catalogo.jsx",
+        "sha256": "aa6833369190f993634140252010cd3ab08086af405b6d26dd18627cf250f9a5"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/Catalogo.test.jsx",
+        "sha256": "ab12e4f00c3144a4b5e4701fb375dbd39035997be4c25685c7bd17f5a21c789c"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/LoginDev.jsx",
+        "sha256": "5b49e01228a642a7c335c65009baa54fdb7f57db83be4fc65d0b3da67eb549df"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/ProductoForm.jsx",
+        "sha256": "24ce13d643e33bff05bea8b20191fee24ff1b7f7a5c7a1675740a8f4dc0fe526"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/ProductoForm.test.jsx",
+        "sha256": "b70daeb64a50a4069f83466cfa31a954cb9c8e952c5e0fea010370339051fd69"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/StockBadge.jsx",
+        "sha256": "56be77aaff3f1256ae28c3fbd34879ced1120ff5ebd5cf6a40304e5a7de2d1af"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/StockBadge.test.jsx",
+        "sha256": "dfb533b93df3a7a1a22166f7249814ae4e742dcfeb94b6be9d315dcabb761b2a"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/VistaCocina.jsx",
+        "sha256": "086d49e1226269b21c570a8281fa1da2cbe31f38fa47df520b77a0148fde2753"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/VistaCocina.test.jsx",
+        "sha256": "1fc0b8e4e655a52dff66572861e0823724ab3d5c9348679428f0235817f8ff02"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/test/setup.js",
+        "sha256": "60aa525f7ffa6bfd3045d22710d4eeef3a5ff2074ecc3dbcef99374badebad17"
+      }
+    ]
+  },
+  {
+    "origen": "ProyectoCafeteriaINF251-main",
+    "archivos": []
+  },
+  {
+    "origen": "DinoCafe_Catalogo_Imagenes_BajaLogica (2)/DinoCafe_Catalogo_Imagenes_BajaLogica/DinoCafe-Frontend-main",
+    "archivos": [
+      {
+        "archivo": ".env.example",
+        "sha256": "7defcca47916d23598c6b99f8da9348cc4047dacb65ec5f0eae01adc233da7a2"
+      },
+      {
+        "archivo": ".gitignore",
+        "sha256": "4a4c1efab1d2107da5c1a6329f01cff3e2ac67b9913d0ac360db72a15ce02daf"
+      },
+      {
+        "archivo": "docker-compose.yml",
+        "sha256": "69a5bddc9cd1a75194b9c8f0c8c14cd7d549907b40780f222af8a9b5643e6287"
+      },
+      {
+        "archivo": "README.md",
+        "sha256": "9b0cb9c563689924505c16d0bd04cc6830d97d62d18cf2641721e3c7eee90bf5"
+      },
+      {
+        "archivo": "backend/.dockerignore",
+        "sha256": "716644f60b28a08613d52538ea7e0e8591a81f6f80eab30611368b839d746f76"
+      },
+      {
+        "archivo": "backend/.env",
+        "sha256": "17c4a4565e19b37a3bc74d07b5e78d814656ad4c82ac92725ca3f975d1931877"
+      },
+      {
+        "archivo": "backend/.env.example",
+        "sha256": "17c4a4565e19b37a3bc74d07b5e78d814656ad4c82ac92725ca3f975d1931877"
+      },
+      {
+        "archivo": "backend/db.sqlite3",
+        "sha256": "ffba8e7de53d40f6eb632db5bb1d483e7ca3e57c2e86c8896bedfededc938835"
+      },
+      {
+        "archivo": "backend/Dockerfile",
+        "sha256": "f7c230da752b71fe434e6889c6307c457f0c493ced85568179b10d8e0117d7e8"
+      },
+      {
+        "archivo": "backend/manage.py",
+        "sha256": "aa96392c01d452c04298db82b9ce339764680d6dba44f72d7d9157105a0057ec"
+      },
+      {
+        "archivo": "backend/requirements.txt",
+        "sha256": "3949b13567a787c1f1a9244d6acf648b00d4dd72ad2a8452639d7f367da3f505"
+      },
+      {
+        "archivo": "backend/catalogo/admin.py",
+        "sha256": "356a65e585e859fa4c1f57cb3d79eaaa2e4ec98454a59125a70f04b7a31db5ca"
+      },
+      {
+        "archivo": "backend/catalogo/apps.py",
+        "sha256": "21d60a6adc5b277083168b75ac3d8de794694ee44a75bea1578d5ad1cbcd854e"
+      },
+      {
+        "archivo": "backend/catalogo/models.py",
+        "sha256": "e372cd2f0c2ebaee657a6a320282573f6f6a2c3a30eb3c19e856237998ae250f"
+      },
+      {
+        "archivo": "backend/catalogo/serializers.py",
+        "sha256": "9ccc7371b00be528ab06c0b83642200a6931b12b7120a88f97c1958c3f5ea828"
+      },
+      {
+        "archivo": "backend/catalogo/urls.py",
+        "sha256": "9197cf21c00dc0c01becd2c5a0d7d678a0d42f1e88f20e59893f68c447ca8178"
+      },
+      {
+        "archivo": "backend/catalogo/views.py",
+        "sha256": "bf9e2710cd800b71a1dfcede0f7219c96a7e89a2d206dcab27da3222f7521c73"
+      },
+      {
+        "archivo": "backend/catalogo/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/dinocafe/asgi.py",
+        "sha256": "e37f6c2ce6550a1f1623f400a0359ec8cb4156070185049655c8b0d83673d358"
+      },
+      {
+        "archivo": "backend/dinocafe/permissions.py",
+        "sha256": "31dd2c9ce6e86f2c9a546df1fabf5d2a09424e75d273c8d480ea0a60381d51e3"
+      },
+      {
+        "archivo": "backend/dinocafe/settings.py",
+        "sha256": "e657c911e724e16eb0fe68a4a5dd01111c41f9485733a88ac848e22706f1c38f"
+      },
+      {
+        "archivo": "backend/dinocafe/urls.py",
+        "sha256": "d2ffe6c637950102d1b98a8675a9423b7a16d4dd5a36b4831ee979224a0ff299"
+      },
+      {
+        "archivo": "backend/dinocafe/views.py",
+        "sha256": "44b14d711387baf214dc904a294284cfeeb056007e539762be12fe37c984c5fa"
+      },
+      {
+        "archivo": "backend/dinocafe/wsgi.py",
+        "sha256": "894dc42e7171b369fb21f06ff4d2eedb67ff3bbdfb1d1f55b9be9485a472ef20"
+      },
+      {
+        "archivo": "backend/dinocafe/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/pedidos/admin.py",
+        "sha256": "9201591a642e58938a3c105609d4b21818054df9164e9bb594f8354e763d823c"
+      },
+      {
+        "archivo": "backend/pedidos/apps.py",
+        "sha256": "17ee0808b6242b42988d62093a13e0ed2f557b5c6ef79c173aa48b2887c1d69d"
+      },
+      {
+        "archivo": "backend/pedidos/models.py",
+        "sha256": "b7060f279764c56150f1f2e170f49fb705fbc6d73c65983558b9d15a92726bb9"
+      },
+      {
+        "archivo": "backend/pedidos/serializers.py",
+        "sha256": "6043e0296010932a12ca6b4b15d36ccd6a74d4d89234b954e0ee1a628bc713a3"
+      },
+      {
+        "archivo": "backend/pedidos/tests.py",
+        "sha256": "7b553df92a90c5387f9a8a6efe27ac9a8b295c15f6211af59573b3725137ca4d"
+      },
+      {
+        "archivo": "backend/pedidos/urls.py",
+        "sha256": "c075bfdcd341dafa7f8183bb43327370b22285b2425a12277565d42efe9a25bd"
+      },
+      {
+        "archivo": "backend/pedidos/views.py",
+        "sha256": "3cf03cfa1c08b61933f412395c66799bfd6be1d3a6e8f9c741081f6784a8b3e8"
+      },
+      {
+        "archivo": "backend/pedidos/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/scripts/smoke_api.mjs",
+        "sha256": "54622f72b0eb237db5a75208a1c1ddfb245fff077878740e1231c857c8adc9fb"
+      },
+      {
+        "archivo": "backend/usuarios/admin.py",
+        "sha256": "5c71db880faf118b5dea09394d712b721fd12d726907c444ffe660bfa54c9cc3"
+      },
+      {
+        "archivo": "backend/usuarios/api_urls.py",
+        "sha256": "4c12cb6b4ea2c49c853ee967ad6be4d4c9637e10bfc396f851929e1473c4d717"
+      },
+      {
+        "archivo": "backend/usuarios/apps.py",
+        "sha256": "597466262a20a46729ceef38db7c328a850f9a05c381f61b78162c2c30521882"
+      },
+      {
+        "archivo": "backend/usuarios/models.py",
+        "sha256": "b1bc1b72bab3c9e9906de0f60c3a53ad71476a00d0ccab6d8848e583e80b0331"
+      },
+      {
+        "archivo": "backend/usuarios/serializers.py",
+        "sha256": "6b33044fbf3b5b3bb58705639742899264c079b8007350182b103af904ee3f3f"
+      },
+      {
+        "archivo": "backend/usuarios/urls.py",
+        "sha256": "1319a39420703c94b433876e81abd3ab4171c9e1eb11365d0d299b2c52be4b85"
+      },
+      {
+        "archivo": "backend/usuarios/views.py",
+        "sha256": "bb5cf0f8fab2a3c57141d17cf8010c72bdac8ff791caee41ba9b5978fdeedf7c"
+      },
+      {
+        "archivo": "backend/usuarios/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/catalogo/migrations/0001_initial.py",
+        "sha256": "e2fd922c6a607f1fb8976681609da0e0a6540a1a1642bcc23b146dd08355dee2"
+      },
+      {
+        "archivo": "backend/catalogo/migrations/0002_imagenes_y_baja_logica.py",
+        "sha256": "cf9991b1e51ae252ce5863b1c45c2ae39835620babeb730cf614eb870de6038c"
+      },
+      {
+        "archivo": "backend/catalogo/migrations/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/pedidos/migrations/0001_initial.py",
+        "sha256": "4d8b10a08182008bca3d00bae75c12e43430f26c074d87d1dd9a5191637382e7"
+      },
+      {
+        "archivo": "backend/pedidos/migrations/0002_pago_reembolso.py",
+        "sha256": "a51b01d78100fc195e9161f83171956476ea9136b6291e0a84b297034dcfe383"
+      },
+      {
+        "archivo": "backend/pedidos/migrations/0003_flujo_caja_mesas_y_responsables.py",
+        "sha256": "37e15fa097e4a82366546879625dbf5def29c19f3ebf81e69b1e3c6fcc9f0206"
+      },
+      {
+        "archivo": "backend/pedidos/migrations/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/usuarios/management/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/usuarios/migrations/0001_initial.py",
+        "sha256": "a4fc5419de6ff574b0165ef7fe5bd8a59e8391c8310542e5045b9a5542794a97"
+      },
+      {
+        "archivo": "backend/usuarios/migrations/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "backend/usuarios/management/commands/seed_demo.py",
+        "sha256": "b315808874cb04ee165d419b72c85755da4806947e636725fb5a7d7647a80710"
+      },
+      {
+        "archivo": "backend/usuarios/management/commands/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/.env",
+        "sha256": "55ec4fc6e7095daea409267bebe5c14ab89311184305fe3a24ae04c67bebc8b7"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/.env.example",
+        "sha256": "55ec4fc6e7095daea409267bebe5c14ab89311184305fe3a24ae04c67bebc8b7"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/index.html",
+        "sha256": "1f26cd2291db17ef6eab8cb48dcaa7c93f8e4eaf165b75f8cd65319df4816a46"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/package-lock.json",
+        "sha256": "33ca47d4f8fb897bf355c08b8a430a0bd881010c8e7ba4f74b348dd77d707dd3"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/package.json",
+        "sha256": "46a27c7879b293a967114d6ba6900d2fe218c283d1dbc0349e7e9d6c081115ab"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/README.md",
+        "sha256": "273cc162085c895d9dea0e31ff61a03dce44c4d8624bc608422bd50ad5419eec"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/vite.config.js",
+        "sha256": "5235a56db34a13fa6574a317039003282d10e24e47802088b310bd98d9797f15"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/LEEME-QR.txt",
+        "sha256": "fea7745a8b0f241de8f596624a13d778211875b61cca5b1943362066a228dddb"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/api.js",
+        "sha256": "d28ab9225e9a647e4e06456dfb9a3bc4edd07d2a5638914bd3a7e8fec7d90062"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/api.test.js",
+        "sha256": "89a593d10a7b26ad4b023a473a0a2028511b7eb64c8ce2f067d41313d99bdec4"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/App.jsx",
+        "sha256": "69155c565d456a839a935784613443901d487eef5ac5b98ae330bc0624ef9593"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/App.test.jsx",
+        "sha256": "590c75083ab199f1777efac42d39dd9167a7e86e8c088248a34de5bf2703d36c"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/main.jsx",
+        "sha256": "bdf6f28dc481bdaae761e2bf6560404a489c84a9cf55465f286c78ab91e29c84"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/styles.css",
+        "sha256": "d70f8ea112a22690b30e64a347d93087eb3266e3fd2fc04c455e8496baf7ba7f"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/carrusel/acompanamientos.jpg",
+        "sha256": "c1c4ffe71257d1875808406091ff1fe0aca1e2dd343d48031dfd6e1a27fe3046"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/carrusel/bebidas.jpg",
+        "sha256": "60d8eb9102e846d9a2260872beac480b895cee7d9e3c6f99ca464dc45796decf"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/carrusel/README-IMAGENES.txt",
+        "sha256": "9e5a99dc522cd552eec6135791f9fd60b63b7e38b18b680814d914d647121028"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/cafe.jpeg",
+        "sha256": "a3a5ad6f98018be9c3b8b26a5c15d426fe598067a1a70fc381a6258cd3db96f8"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/cafe.jpg",
+        "sha256": "3d75d65c4093a2fe89388706ad9a1053435b3a031ef922e57e5e00bb02911afd"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/cocoa-con-leche.jpeg",
+        "sha256": "cb9cf908d372160ecae882941b63f336ee8bdb054c30a22036ef2c8b1ba67107"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/cocoa-con-leche.jpg",
+        "sha256": "7d38a58c68a8b9cf27d87c43aab808075b636daddc7491f27c14a2f0e327d459"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/cocoa.jpeg",
+        "sha256": "d317f11186be976ff365b2a81332a55d8d9eda3949396d143092d217e29c7ede"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/cocoa.jpg",
+        "sha256": "1e0320c1116fe18e9a15c9d46a9f394abd0bb2518f1e690e907b2465ca6352c8"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/empanada.jpeg",
+        "sha256": "d38c6188645601203759995f8f9e2262c9972d4eea23484350e705f2e5fbe9ca"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/empanada.jpg",
+        "sha256": "072a1a1fee4efa7add4eeecb9d9c156852427f75c98786cf17e3b8aba34cfab3"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/leche.jpeg",
+        "sha256": "7219c19e2bfbb0c580483ca83688d4158be0ea4dcb4cd108bf7419335a793e67"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/leche.jpg",
+        "sha256": "8674384e50158c99dbf88552fd83d847c46b85f0d05c8d289ec37671be7a325e"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/pan.jpeg",
+        "sha256": "d54584091bb8a5defdf22e0d5a76ee3cc98acc74144ec1487608b8ffceaddcd8"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/pan.jpg",
+        "sha256": "54bee78e07fd08f9907c9956fff0d789853e9003e663b420fab44302944ca2d6"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/README-IMAGENES.txt",
+        "sha256": "638458d836512868492e61463ae03abf1c0943371ac1d2b09610ba81106b0d29"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/sandwich-de-huevo.jpg",
+        "sha256": "3f9e7cdceb52d8da34cf80ccccbdfc2f9d94430639494412bc0216a346afacbb"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/sandwich-de-huevo.png",
+        "sha256": "137837636d096cbaf57feed42f60ffd9a69b3a966c8179546d17c53a4a0e58b4"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/te.jpeg",
+        "sha256": "c9c12fa2417ac2d284f3a26692b04c875f706f9c2e79c8eba08bbd7b27bc8614"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/te.jpg",
+        "sha256": "868d9de1f55aff800876879bbaebde373e2ec4a3089e1a36abad0e43fdbf17df"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/trozo-de-rollo.jpeg",
+        "sha256": "2568b9bc9dfb799f8fd5bb4b9773005278c79b4525a9cce30afe8d7349f086af"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/trozo-de-rollo.jpg",
+        "sha256": "212c42c96952f9176d29b34ccf404257188aefef69c969b54f7685d80889e1be"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/trozo-de-torta.jpeg",
+        "sha256": "d05d5e533d120c60b2f821738c2dfafbcd42512c4cdffd478711d9bee0ffab2d"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/public/images/productos/trozo-de-torta.jpg",
+        "sha256": "c8bbbb00d763938a34f0dc1fe26b1facebdbb81b42a93e85083b98796c204529"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/BuscadorProductos.jsx",
+        "sha256": "9f26a0473e7054eef2cfcda71b8245a4c8729d0e773f518a308a81a009df2bf4"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/BuscadorProductos.test.jsx",
+        "sha256": "334ff52e9a81e02dc615524ee3e23faf803dbe41afd67ed5f4c65dc8d6a6b538"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/CarruselCategorias.jsx",
+        "sha256": "d751f39e7ebec45cab45f6974b9eaa5b7666ef95ac151c496c8e01b917cb0bc1"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/Catalogo.jsx",
+        "sha256": "61b139a24eb0e89d3d484c2886974d0e2cd4b7607388b25b9b2ca5477d371505"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/Catalogo.test.jsx",
+        "sha256": "859a4cc26dfe216f9c79a444c5ed6642ecec1cbb8f420d744da4b3f204fd223e"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/GestionUsuarios.jsx",
+        "sha256": "a93fe57a336f55149c8a2f97c93fcd9adf475bb1ce96333a23d7a6cfb967b0a3"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/ImagenProducto.jsx",
+        "sha256": "20d29f5d89cb1b2bfbcd22b3a051c9d4582492cf489dc35861a05680273f7d2d"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/Login.jsx",
+        "sha256": "0793d41110d8ee44e1aa89dcbb4155ecc44fca7e16c721625bef6ae36c4a12c6"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/Login.test.jsx",
+        "sha256": "e8127a062e7109a47abf9bbb05bd514a83d4c7aac35fb52f75050598f42c52a0"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/ProductoForm.jsx",
+        "sha256": "7c784e4c23dc714e65e81c4916d1da08d2b50880e2775834d2c136e43625f262"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/ProductoForm.test.jsx",
+        "sha256": "3723634f9ddc0981a5f2293881a615b047a3b202ef0edeabcc953dbead4829ef"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/ReportesVentas.jsx",
+        "sha256": "e3d779be7ce5246b1540574abfcfae54c18a5d906ab35c66213969cc8cd405da"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/SeguimientoPedidos.jsx",
+        "sha256": "cb1e4fcd2ee4c777f08449cce891f55d5eb76df3e1cf7500175051b040b69685"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/StockBadge.jsx",
+        "sha256": "ead2336e4257e012bdc138e182bebe0167ec71b0226c168b8cfcf33919b1a7ef"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/StockBadge.test.jsx",
+        "sha256": "bc5eb9ff37364c37694d7f41231c889921082b58e6eb14fb8195b21334e96aa0"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/VistaCaja.jsx",
+        "sha256": "22ab9b6db6b6ec61006b146f9ee2b846846167e79d4ab5199e1a63d3b47875c3"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/VistaCaja.test.jsx",
+        "sha256": "1a9d3504ce54cc3c70c50b5b641c788ce1975b3a5cc5c769318e209375aacbe9"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/VistaCocina.jsx",
+        "sha256": "9ee9150d01c559ad05e2c73e0cadf0a1b101d11ab843c546b2a82d7da056e698"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/VistaCocina.test.jsx",
+        "sha256": "894624fbf54838466777007a4a4248bcac0cd1d09b7d02edd46ac86364ccac23"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/VistaMesero.jsx",
+        "sha256": "f1db5601200833eae8e39c40a0af1b7dc3518ad47d759a889683d5631b7df8db"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/components/VistaMesero.test.jsx",
+        "sha256": "cce54a651f1fcc9d80020db3082b9a9a1803114fc871e0ac401bfadeb6f8cabd"
+      },
+      {
+        "archivo": "frontend/dinocafe-frontend/src/test/setup.js",
+        "sha256": "9b328c4843431fa76d8de00008fc159e95f99a840211085ff3b8f25e53d14409"
+      }
+    ]
+  }
+]

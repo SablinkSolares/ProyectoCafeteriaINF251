@@ -1,0 +1,59 @@
+{
+  "url": "http://localhost:8000/api/health/",
+  "muestras": 10,
+  "intervalo_segundos": 1.0,
+  "porcentaje_observado": 100.0,
+  "resultados": [
+    {
+      "fecha_utc": "2026-11-07T03:50:04.020806+00:00",
+      "ok": true,
+      "milisegundos": 2072.81
+    },
+    {
+      "fecha_utc": "2026-11-07T03:50:07.085086+00:00",
+      "ok": true,
+      "milisegundos": 2064.61
+    },
+    {
+      "fecha_utc": "2026-11-07T03:50:10.136098+00:00",
+      "ok": true,
+      "milisegundos": 2050.03
+    },
+    {
+      "fecha_utc": "2026-11-07T03:50:13.193470+00:00",
+      "ok": true,
+      "milisegundos": 2052.55
+    },
+    {
+      "fecha_utc": "2026-11-07T03:50:16.250061+00:00",
+      "ok": true,
+      "milisegundos": 2056.06
+    },
+    {
+      "fecha_utc": "2026-11-07T03:50:19.327249+00:00",
+      "ok": true,
+      "milisegundos": 2076.23
+    },
+    {
+      "fecha_utc": "2026-11-07T03:50:22.389056+00:00",
+      "ok": true,
+      "milisegundos": 2061.7
+    },
+    {
+      "fecha_utc": "2026-11-07T03:50:25.434004+00:00",
+      "ok": true,
+      "milisegundos": 2042.5
+    },
+    {
+      "fecha_utc": "2026-11-07T03:50:28.476656+00:00",
+      "ok": true,
+      "milisegundos": 2041.97
+    },
+    {
+      "fecha_utc": "2026-11-07T03:50:31.516677+00:00",
+      "ok": true,
+      "milisegundos": 2039.36
+    }
+  ],
+  "alcance": "Disponibilidad observada por sondeo. Para evaluar RNF1, cubrir jornadas completas de atención; una muestra corta no acredita el 99%."
+}

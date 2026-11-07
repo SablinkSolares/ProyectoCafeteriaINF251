@@ -1,0 +1,162 @@
+{
+  "escenarios": [
+    "Catálogo muestra imágenes, stock exacto y tipos de producto",
+    "Inventario muestra físico, reservado y disponible",
+    "Mesero registra pedido con mesa y observaciones",
+    "Cocina prepara sin exigir pago previo",
+    "Mesero confirma entrega",
+    "Yape pendiente → confirmación de caja → notificación de pago realizado",
+    "Seguimiento diario y detalle por ID muestran trazabilidad",
+    "ventas-ejemplo.pdf: PDF válido de 1 página(s)",
+    "historial-reportes-ejemplo.pdf: PDF válido de 1 página(s)"
+  ],
+  "pantallas": [
+    {
+      "tipo": "escritorio",
+      "vista": "Productos",
+      "ancho": 1440,
+      "ancho_documento": 1440
+    },
+    {
+      "tipo": "escritorio",
+      "vista": "Caja",
+      "ancho": 1440,
+      "ancho_documento": 1440
+    },
+    {
+      "tipo": "escritorio",
+      "vista": "Inventario",
+      "ancho": 1440,
+      "ancho_documento": 1440
+    },
+    {
+      "tipo": "escritorio",
+      "vista": "Seguimiento",
+      "ancho": 1440,
+      "ancho_documento": 1440
+    },
+    {
+      "tipo": "escritorio",
+      "vista": "Ventas",
+      "ancho": 1440,
+      "ancho_documento": 1440
+    },
+    {
+      "tipo": "escritorio",
+      "vista": "Usuarios",
+      "ancho": 1440,
+      "ancho_documento": 1440
+    },
+    {
+      "tipo": "escritorio",
+      "vista": "Ajustes",
+      "ancho": 1440,
+      "ancho_documento": 1440
+    },
+    {
+      "tipo": "escritorio",
+      "vista": "Cocina",
+      "ancho": 1440,
+      "ancho_documento": 1440
+    },
+    {
+      "tipo": "tablet",
+      "vista": "Productos",
+      "ancho": 768,
+      "ancho_documento": 768
+    },
+    {
+      "tipo": "tablet",
+      "vista": "Caja",
+      "ancho": 768,
+      "ancho_documento": 768
+    },
+    {
+      "tipo": "tablet",
+      "vista": "Inventario",
+      "ancho": 768,
+      "ancho_documento": 768
+    },
+    {
+      "tipo": "tablet",
+      "vista": "Seguimiento",
+      "ancho": 768,
+      "ancho_documento": 768
+    },
+    {
+      "tipo": "tablet",
+      "vista": "Ventas",
+      "ancho": 768,
+      "ancho_documento": 768
+    },
+    {
+      "tipo": "tablet",
+      "vista": "Usuarios",
+      "ancho": 768,
+      "ancho_documento": 768
+    },
+    {
+      "tipo": "tablet",
+      "vista": "Ajustes",
+      "ancho": 768,
+      "ancho_documento": 768
+    },
+    {
+      "tipo": "tablet",
+      "vista": "Cocina",
+      "ancho": 768,
+      "ancho_documento": 768
+    },
+    {
+      "tipo": "celular",
+      "vista": "Productos",
+      "ancho": 390,
+      "ancho_documento": 390
+    },
+    {
+      "tipo": "celular",
+      "vista": "Caja",
+      "ancho": 390,
+      "ancho_documento": 390
+    },
+    {
+      "tipo": "celular",
+      "vista": "Inventario",
+      "ancho": 390,
+      "ancho_documento": 390
+    },
+    {
+      "tipo": "celular",
+      "vista": "Seguimiento",
+      "ancho": 390,
+      "ancho_documento": 390
+    },
+    {
+      "tipo": "celular",
+      "vista": "Ventas",
+      "ancho": 390,
+      "ancho_documento": 390
+    },
+    {
+      "tipo": "celular",
+      "vista": "Usuarios",
+      "ancho": 390,
+      "ancho_documento": 390
+    },
+    {
+      "tipo": "celular",
+      "vista": "Ajustes",
+      "ancho": 390,
+      "ancho_documento": 390
+    },
+    {
+      "tipo": "celular",
+      "vista": "Cocina",
+      "ancho": 390,
+      "ancho_documento": 390
+    }
+  ],
+  "errores_js": [],
+  "registro_interfaz_ms": 110.22,
+  "pedido_de_prueba": 8
+}

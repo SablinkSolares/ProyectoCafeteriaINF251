@@ -1,35 +1,37 @@
+name: dinocafe
 services:
   db:
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_DB: dinocafe
-      POSTGRES_USER: dinocafe
-      POSTGRES_PASSWORD: dinocafe
-    ports:
-      - "5432:5432"
+      POSTGRES_DB: ${POSTGRES_DB:-dinocafe}
+      POSTGRES_USER: ${POSTGRES_USER:-dinocafe}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dinocafe-desarrollo}
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U dinocafe -d dinocafe"]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
       timeout: 5s
-      retries: 10
+      retries: 15
 
   backend:
     build: ./backend
     restart: unless-stopped
     environment:
       DB_ENGINE: postgres
-      POSTGRES_DB: dinocafe
-      POSTGRES_USER: dinocafe
-      POSTGRES_PASSWORD: dinocafe
+      POSTGRES_DB: ${POSTGRES_DB:-dinocafe}
+      POSTGRES_USER: ${POSTGRES_USER:-dinocafe}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dinocafe-desarrollo}
       POSTGRES_HOST: db
       POSTGRES_PORT: "5432"
-      DJANGO_DEBUG: "1"
-      DJANGO_ALLOWED_HOSTS: "*"
+      DJANGO_DEBUG: ${DJANGO_DEBUG:-1}
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS:-*}
+      QR_WEBHOOK_SECRET: ${QR_WEBHOOK_SECRET:-}
     ports:
       - "8000:8000"
+    volumes:
+      - media:/app/media
     depends_on:
       db:
         condition: service_healthy
@@ -39,20 +41,22 @@ services:
              python manage.py runserver 0.0.0.0:8000"
 
   frontend:
-    image: node:22-alpine
+    image: node:24-alpine
     restart: unless-stopped
     working_dir: /app
     environment:
-      VITE_API_URL: http://localhost:8000/api
+      VITE_API_URL: /api
+      API_PROXY_TARGET: http://backend:8000
     volumes:
-      - ./frontend/dinocafe-frontend:/app
+      - ./frontend:/app
       - frontend_node_modules:/app/node_modules
     ports:
       - "5173:5173"
     depends_on:
       - backend
-    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    command: sh -c "npm ci && npm run dev -- --host 0.0.0.0"
 
 volumes:
   pgdata:
+  media:
   frontend_node_modules:
