@@ -28,7 +28,7 @@ button:disabled { opacity: .58; cursor: not-allowed; }
 
 .barra { min-height: 68px; display: flex; align-items: center; gap: 1.2rem; padding: .65rem max(1.25rem, calc((100% - 1180px) / 2)); background: var(--superficie); border-bottom: 1px solid var(--linea); }
 .marca { display: inline-flex; align-items: center; gap: .65rem; margin-right: .4rem; color: var(--tinta); font-size: 1rem; font-weight: 650; text-decoration: none; white-space: nowrap; }
-.marca-icono { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid #dfe3dd; border-radius: 10px; background: #f3f5f2; color: var(--acento-osc); font-size: 1rem; font-weight: 700; }
+.marca-logo { display: block; width: 42px; height: 42px; flex: 0 0 auto; object-fit: contain; }
 .navegacion { display: flex; align-items: center; gap: .25rem; overflow-x: auto; }
 .pestana { flex: 0 0 auto; padding: .55rem .85rem; border: 0; border-radius: 7px; background: transparent; color: #636a63; font-size: .92rem; }
 .pestana:hover { background: #f6f7f5; color: var(--tinta); }
@@ -91,7 +91,7 @@ button:disabled { opacity: .58; cursor: not-allowed; }
 .login-contenido { display: grid; place-items: center; padding: 3rem 2rem; }
 .login.form { width: min(100%, 400px); max-width: 400px; gap: 1.1rem; margin: 0; padding: 0; }
 .login-marca { display: flex; justify-content: center; align-items: center; gap: .7rem; margin-bottom: 1.5rem; font-size: 1.35rem; font-weight: 700; letter-spacing: -.035em; }
-.login-marca .marca-icono { width: 42px; height: 42px; border-color: #dce3dc; font-size: 1.2rem; }
+.login-marca .marca-logo { width: 80px; height: 80px; }
 .login-encabezado { text-align: center; margin-bottom: .65rem; }
 .login-sobretitulo { margin: 0 0 .7rem; color: var(--acento-osc); font-size: .7rem; font-weight: 700; letter-spacing: .11em; }
 .login h1 { margin-bottom: .55rem; font-size: clamp(1.6rem, 2.5vw, 2rem); }

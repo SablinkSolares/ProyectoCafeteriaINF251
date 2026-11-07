@@ -102,7 +102,7 @@ export default function App() {
     <>
       <nav className="barra" aria-label="Navegación principal">
         <a className="marca" href="#inicio" onClick={(event) => { event.preventDefault(); setActual(permitidas[0]?.id); }}>
-          <span className="marca-icono">D</span><span>DinoCafé</span>
+          <img className="marca-logo" src="/images/dinocafe-logo.svg" alt="" /><span>DinoCafé</span>
         </a>
         <div className="navegacion">
           {permitidas.map((vista) => (

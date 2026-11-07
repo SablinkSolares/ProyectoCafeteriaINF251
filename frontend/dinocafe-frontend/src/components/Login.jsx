@@ -31,7 +31,7 @@ export default function Login({ onIngresar, errorInicial = "" }) {
       <section className="login-contenido" aria-label="Acceso del personal">
       <form className="form login" onSubmit={enviar}>
         <div className="login-marca">
-          <span className="marca-icono" aria-hidden="true">D</span>
+          <img className="marca-logo" src="/images/dinocafe-logo.svg" alt="" />
           <span>DinoCafé</span>
         </div>
         <div className="login-encabezado">
